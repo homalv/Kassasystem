@@ -55,3 +55,10 @@ Some usage examples here...
 ```
 ``` 
 
+### Testing
+
+Some information about the testing here...
+
+```
+```
+
