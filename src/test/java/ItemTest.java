@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemTest {
 
     private static final String ITEM_NAME = "AN ITEM00!";
-    private static final String NON_ISO_88591_NAME = "Дмитрий";
+    private static final String NON_ISO_88591_NAME = "Дмитkрий";
     private static final long PRICE = 1000;
     private static final long NEGATIVE_PRICE = -1;
     private static final String EMPTY_STRING = "";
