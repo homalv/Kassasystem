@@ -12,6 +12,8 @@ This markdown file is for sharing notes and ideas for the team. Feel free to add
   * Read the guide for "The perfect commit"
 * ALWAYS USE LATEST VERSIONS OF EVERYTHING!
 
+* Merge || Rebase ???? -> Bestäm!
+
 ### Project Plan
 
 ```
