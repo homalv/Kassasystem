@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class RegisterTest {
-
-
-
     private Register register;
     private static final String ASSORTMENT_RESOURCE_PATH = "/production-assortment.csv";
     private static final long PINEAPPLE_EAN = 1234567890017L;

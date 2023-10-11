@@ -7,15 +7,15 @@ import java.util.Objects;
 
 public class Assortment {
 
+    private static final int AMOUNT_OF_CSV_VALUES = 3;
     // Integer should be replaced by EAN???
-    private Map<Long, Item> items;
+    private final Map<Long, Item> items = new HashMap<>();
+
 
     public Assortment(String csvResourcePath)  {
         if (!csvResourcePath.endsWith(".csv")) {
             throw new IllegalArgumentException("Provided resource path is not a CSV file: " + csvResourcePath);
         }
-
-        items = new HashMap<>();
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(csvResourcePath),
@@ -27,7 +27,7 @@ public class Assortment {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
 
-                if (parts.length != 3) {
+                if (parts.length != AMOUNT_OF_CSV_VALUES) {
                     throw new ArrayIndexOutOfBoundsException("CSV file format is incorrect. Ensure each line has the correct number of fields");
                 }
 

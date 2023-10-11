@@ -1,6 +1,4 @@
 public class Register {
-
-
     private final Assortment assortment;
     private ShoppingCart cart;
 
