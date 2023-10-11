@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,12 +15,15 @@ class ItemTest {
     private static final String TOO_LONG_NAME = " THISSTRINGCONTAINSOVERTHIRTYCHARS ";
     private static final String ITEM_NAME_WITH_WHITESPACE = "  AN                                    ITEM00!  ";
 
-
+    private Item correctItemObject;
+    @BeforeEach
+    void setUp() {
+        correctItemObject = new Item(ITEM_NAME, PRICE);
+    }
     // Price
     @Test
     void testCreatesItemWithName() {
-        Item i = new Item(ITEM_NAME, PRICE);
-        assertEquals(ITEM_NAME, i.getName());
+        assertEquals(ITEM_NAME, correctItemObject.getName());
     }
 
     @Test
@@ -87,9 +91,35 @@ class ItemTest {
     // Item category
 
     @Test
-    void testEquals() {
-        assertEquals(new Item("A", 1), new Item("A", 1));
+    void testEqualsTrueSameObject() {
+        assertEquals(correctItemObject, correctItemObject);
     }
-    
 
+    @Test
+    void testEqualsSameValues() {
+        assertEquals(new Item(ITEM_NAME, PRICE), correctItemObject);
+    }
+
+    @Test
+    void testEqualsFalseSameClass() {
+        assertNotEquals(new Item("B", 1), correctItemObject);
+    }
+
+    @Test
+    void testEqualsDifferentClasses() {
+        assertNotEquals(correctItemObject, new Object());
+    }
+
+    @Test
+    void testEqualsFalseForNull() {
+        assertNotEquals(correctItemObject, null);
+    }
+
+    @Test
+    public void testEqualsSymmetricReflexiveTransitive() {
+        Item x = new Item(ITEM_NAME, PRICE);
+        Item y = new Item(ITEM_NAME, PRICE);
+        assertTrue(x.equals(y) && y.equals(x));
+        assertEquals(x.hashCode(), y.hashCode());
+    }
 }

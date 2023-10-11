@@ -20,7 +20,6 @@ public class Item {
             throw new IllegalArgumentException("Contains non-ISO-8859-1");
         }
 
-        // trim
         String trimmedName = trim(name);
         if (trimmedName.length() > NAME_MAX_LENGTH) {
             throw new IllegalArgumentException("Trimmed string too long");
@@ -40,11 +39,9 @@ public class Item {
     }
 
     private String trim(String name) {
-        // A) Delete all whitespaces before the first word
-        // B) Delete all whitespaces before the last word
         String trimmedName = name.trim();
 
-        // C) Delete all whitespaces between words when there are more than one
+        // Regex: Delete all whitespaces between words when there are more than one
         trimmedName = trimmedName.replaceAll("\\s{2,}", " ");
 
         return trimmedName;
