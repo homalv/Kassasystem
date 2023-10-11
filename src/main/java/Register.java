@@ -19,4 +19,12 @@ public class Register {
         cart = new ShoppingCart();
     }
 
+    public boolean addToCart(long ean) {
+        return !assortment.contains(ean);
+
+        // Should Assortment return Items????
+        // And then add to cart???
+
+        /*cart.addItem();*/
+    }
 }
