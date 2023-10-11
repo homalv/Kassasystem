@@ -15,6 +15,7 @@
     </properties>
 
     <dependencies>
+        <!--UNIT TESTING FRAMEWORK-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -31,6 +32,14 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.10.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--MOCKING FRAMEWORK-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
