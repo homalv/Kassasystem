@@ -2,13 +2,12 @@ import java.util.HashMap;
 import java.time.LocalDateTime;
 
 public class ShoppingCart {
-    private HashMap shoppingCart;
-    LocalDateTime cartDateTime;
+    private final HashMap<Integer, Item> shoppingCart;
+    private final LocalDateTime cartDateTime;
 
     public ShoppingCart(){
-        shoppingCart = new HashMap();
+        shoppingCart = new HashMap<>();
         cartDateTime = LocalDateTime.now();
-
     }
 
     public boolean isEmpty(){
