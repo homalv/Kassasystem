@@ -2,6 +2,7 @@ import java.util.HashMap;
 
 public class ItemScanner {
     private final HashMap<String, Item> items = new HashMap<>();
+    private boolean isItemScannerActive = false;
 
     public ItemScanner() {
         // TEMP SOLUTION (SHOULD PROBABLY BE MOCKED OR SOMETHING)
@@ -10,7 +11,10 @@ public class ItemScanner {
     }
 
     public Item findItem(String ean) {
-        return items.get(ean);
+        return isItemScannerActive ? items.get(ean) : null;
     }
 
+    public void setIsItemScannerActive(boolean state) {
+        isItemScannerActive = state;
+    }
 }
