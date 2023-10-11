@@ -86,4 +86,10 @@ class ItemTest {
     // EAN
     // Item category
 
+    @Test
+    void testEquals() {
+        assertEquals(new Item("A", 1), new Item("A", 1));
+    }
+    
+
 }
