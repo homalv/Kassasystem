@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.time.LocalDateTime;
 
 public class ShoppingCart {
+    private static int cartCounter = 0;
     private final HashMap<Integer, Item> shoppingCart;
     private final LocalDateTime cartDateTime;
     private static int lineItemCounter = 0;
@@ -9,6 +10,11 @@ public class ShoppingCart {
     public ShoppingCart(){
         shoppingCart = new HashMap<>();
         cartDateTime = LocalDateTime.now();
+        cartCounter++;
+    }
+
+    public static int getCartCounter() {
+        return cartCounter;
     }
 
     public boolean isEmpty(){
