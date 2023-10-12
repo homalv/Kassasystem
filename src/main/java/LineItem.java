@@ -1,6 +1,9 @@
-public record LineItem(Item item, int quantity) {
+public class LineItem {
 
-    public LineItem {
+    private final Item item;
+    private int quantity;
+
+    public LineItem(Item item, int quantity) {
         if (item == null) {
             throw new IllegalArgumentException("Item cannot be null");
         }
@@ -8,5 +11,12 @@ public record LineItem(Item item, int quantity) {
         if (quantity < 1) {
             throw new IllegalArgumentException("Quantity must be at least 1");
         }
+
+        this.quantity = quantity;
+        this.item = item;
+    }
+
+    public long getPrice() {
+        return item.getPrice() * quantity;
     }
 }

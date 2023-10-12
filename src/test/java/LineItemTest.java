@@ -5,11 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class LineItemTest {
 
     @Test
-    void testItemNotNull() {
+    void testItemNullThrows() {
         assertThrows(IllegalArgumentException.class,
-                () -> new LineItem(new Item("Banan", 100), 5));
+                () -> new LineItem(null, 5));
     }
-
 
     @Test
     void testZeroQuantityThrows() {
@@ -21,5 +20,11 @@ class LineItemTest {
     void testNegativeQuantityThrows() {
         assertThrows(IllegalArgumentException.class,
                 () -> new LineItem(new Item("Banan", 100), -1));
+    }
+
+    @Test
+    void testGetPriceReturnCorrect() {
+        LineItem lineItem = new LineItem(new Item("BANAN", 2000), 5);
+        assertEquals(10000, lineItem.getPrice());
     }
 }
