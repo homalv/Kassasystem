@@ -10,6 +10,7 @@ class AssortmentTest {
     private static final String NON_NUMERICAL_STRING_IN_CSV_PATH = "/non-numerical-item-string.csv";
     private static final String OUT_OF_BOUNDS_CSV_PATH = "/oob.csv";
     private static final long PINEAPPLE_EAN = 1234567890017L;
+    private final Item pineapple = new Item("Pineapple",200);
 
     @Test
     void ctrThrowsForNonCsvFile() {
@@ -42,5 +43,4 @@ class AssortmentTest {
         Assortment assortment = new Assortment(ASSORTMENT_RESOURCE_PATH);
         assertTrue(assortment.contains(PINEAPPLE_EAN));
     }
-
 }

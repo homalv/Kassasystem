@@ -4,13 +4,12 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Assortment {
 
     private static final int AMOUNT_OF_CSV_VALUES = 3;
-    // Integer should be replaced by EAN???
     private final Map<Long, Item> items = new HashMap<>();
-
 
     public Assortment(String csvResourcePath)  {
         if (!csvResourcePath.endsWith(".csv")) {
@@ -36,16 +35,12 @@ public class Assortment {
                 items.put(ean, item);
             }
         } catch (IOException e) {
-            System.err.println("IOException caught: Error reading the CSV file: " + e.getMessage());
-            throw new RuntimeException("IOException caught: Error reading the CSV file");
+            throw new RuntimeException("IOException caught: Error reading the CSV file", e);
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing a number from the CSV file: " + e.getMessage());
             throw new NumberFormatException("Error parsing a number from the CSV file");
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("CSV file format is incorrect. Ensure each line has the correct number of fields: " + e.getMessage());
             throw new ArrayIndexOutOfBoundsException("CSV file format is incorrect. Ensure each line has the correct number of fields");
         }
-
     }
 
     public int getAssortmentSize() {
@@ -54,5 +49,9 @@ public class Assortment {
 
     public boolean contains(long ean) {
         return items.containsKey(ean);
+    }
+
+    public Optional<Item> getItem(long ean) {
+        return Optional.ofNullable(items.get(ean));
     }
 }
