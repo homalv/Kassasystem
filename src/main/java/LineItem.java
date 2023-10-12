@@ -1,8 +1,12 @@
-public class LineItem {
+public record LineItem(Item item, int quantity) {
 
-    // Temp class for ideas for naming
+    public LineItem {
+        if (item == null) {
+            throw new IllegalArgumentException("Item cannot be null");
+        }
 
-    // Receipt name: Hallondryck
-    // (IN) str.length() > 20
-    // (V) 0 < str.length() < 20
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity must be at least 1");
+        }
+    }
 }
