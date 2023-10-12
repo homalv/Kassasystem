@@ -87,12 +87,12 @@ class ItemTest {
         assertTrue(i.getName().length() < ACCEPTED_NAME_LENGTH);
     }
 
-    // EAN
+    // Scanner
     // Item category
 
     @Test
     void testEqualsTrueSameObject() {
-        assertEquals(correctItemObject, correctItemObject);
+        assertSame(correctItemObject, correctItemObject);
     }
 
     @Test
