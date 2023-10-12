@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class Register {
     private final Assortment assortment;
     private ShoppingCart cart;
@@ -18,11 +20,15 @@ public class Register {
     }
 
     public boolean addToCart(long ean) {
-        return !assortment.contains(ean);
+        Optional<Item> itemOptional = assortment.getItem(ean);
 
-        // Should Assortment return Items????
-        // And then add to cart???
+        if (itemOptional.isEmpty()) {
+            return false;
+        }
 
-        /*cart.addItem();*/
+        Item item = itemOptional.get();
+
+        cart.addItem(item);
+        return true;
     }
 }

@@ -2,26 +2,26 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
 class RegisterTest {
-    private Register register;
+
     private static final String ASSORTMENT_RESOURCE_PATH = "/production-assortment.csv";
     private static final long PINEAPPLE_EAN = 1234567890017L;
-
+    private static final long NON_PRESENT_EAN = 1000000000001L;
+    private Register register;
+    private Register registerWithInitPurchase;
 
     @BeforeEach
     void setUp() {
         Assortment assortment = new Assortment(ASSORTMENT_RESOURCE_PATH);
         register = new Register(assortment);
+        Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        registerWithInitPurchase = new Register(assortment2);
+        registerWithInitPurchase.initializePurchase();
     }
 
-
-    // Collection for retrieving StoreItems
-    // TODO -> Field for Scanner?
     @Test
     void testCreatesRegister() {
         assertNotNull(register);
@@ -34,15 +34,12 @@ class RegisterTest {
     }
 
 
-    // start
     @Test
     void testInitializePurchaseAssignsNewShoppingCart() {
         register.initializePurchase();
         assertNotNull(register.getCart());
     }
 
-
-    // scanItem() { use ItemScanner to get EAN --> Fetch from Assortment --> i -> addToCart}
     @Test
     void testInitializePurchaseInstantiatesCart() {
         assertNull(register.getCart());
@@ -50,21 +47,22 @@ class RegisterTest {
         assertNotNull(register.getCart());
     }
 
-    /*// TODO -> MOCK EAN
-    @Test
-    void testItemInAssortmentAddedToCart() {
-        register.initializePurchase();
-        // Mock for missing functionality of Scanner and EAN
-        EAN mockEAN = mock(EAN.class);
-        when(mockEAN.getValue()).thenReturn(PINEAPPLE_EAN);
-        *//*register.addToCart(mockEAN.getValue());*//*
-        assertFalse(register.getCart().isEmpty());
-    }*/
-
     @Test
     void testAddsItemToCartIfEANInAssortment() {
-        register.initializePurchase();
-        assertTrue(register.addToCart(PINEAPPLE_EAN));
+        Scanner scanner = mock(Scanner.class);
+        when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
+
+        assertTrue(registerWithInitPurchase.addToCart(scanner.getEAN()));
+        assertEquals(1, registerWithInitPurchase.getCart().size());
+    }
+
+    @Test
+    void testDoesNotAddItemToCartIfEANNotInAssortment() {
+        Scanner scanner = mock(Scanner.class);
+        when(scanner.getEAN()).thenReturn(NON_PRESENT_EAN);
+
+        assertFalse(registerWithInitPurchase.addToCart(scanner.getEAN()));
+        assertEquals(0, registerWithInitPurchase.getCart().size());
     }
 
     // removeScannedItem
