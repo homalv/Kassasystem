@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.contains;
+
 
 public class ShoppingCartTest {
+private static final String PINEAPPLE = "PINEAPPLE";
+private static final int DEFAULT_PRICE = 2000;
 
-    @Test
+@Test
     void checkEmptyShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
         assertTrue(shoppingCart.isEmpty());
@@ -29,7 +30,7 @@ public class ShoppingCartTest {
     @Test
     void testAddOneItemToCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item("PINEAPPLE", 2000);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         shoppingCart.addItem(testItem);
         String testItemEAN = testItem.getEAN();
         assertEquals(testItem, shoppingCart.getLineItemFromShoppingCart(testItemEAN).getItem());
@@ -38,16 +39,16 @@ public class ShoppingCartTest {
     @Test
     void testGetCartSizeAfterAdding() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.addItem(new Item("PINEAPPLE", 2000));
-        shoppingCart.addItem(new Item("PINEAPPLE", 2000));
-        shoppingCart.addItem(new Item("PINEAPPLE", 2000));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
         assertEquals(3, shoppingCart.size());
     }
 
     @Test
     void testGetCartSizeAfterRemoving() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item("PINEAPPLE", 2000);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
@@ -58,7 +59,7 @@ public class ShoppingCartTest {
     @Test
     void testAddAndRemoveSingleItem() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item("PINEAPPLE", 2000);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
         assertTrue(shoppingCart.isEmpty());
@@ -67,12 +68,14 @@ public class ShoppingCartTest {
     @Test
     void testQuantityAfterAddAndRemoveOneOfDuplicateItems() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item("PINEAPPLE", 2000);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
         assertEquals(1, shoppingCart.getLineItemFromShoppingCart(testItem.getEAN()).getQuantity());
 
     }
+    
+    
 
 }

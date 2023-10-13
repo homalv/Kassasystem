@@ -4,10 +4,10 @@ public class Item {
 
     private final long price;
     private final String name;
+    private final EAN EAN;
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
-    private static final int NAME_MAX_LENGTH = 30;
-    final EAN EAN = new EAN("1234"); 
-    //TODO FIXA DETTA SKIT
+    private static final int NAME_MAX_LENGTH = 30; 
+    
 
     public Item(String name, long price) {
         if (name == null) {
@@ -34,6 +34,34 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
+        this.EAN = new EAN("1234");
+    }
+        public Item(String name, long price, String productDigits) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
+
+        if (name.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be empty or blank");
+        }
+
+        if (containsNonISO88591(name)) {
+            throw new IllegalArgumentException("Contains non-ISO-8859-1");
+        }
+
+        String trimmedName = trim(name);
+        if (trimmedName.length() > NAME_MAX_LENGTH) {
+            throw new IllegalArgumentException("Trimmed string too long");
+        }
+
+        if (price < 0) {
+            throw new IllegalArgumentException("Price must not be negative or above Long.MAX_VALUE");
+
+        }
+
+        this.name = trimmedName;
+        this.price = price;
+        this.EAN = new EAN(productDigits);
     }
     public String getEAN() {
         return EAN.getEANNumber();

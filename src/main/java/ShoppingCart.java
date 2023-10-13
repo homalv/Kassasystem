@@ -41,7 +41,7 @@ public class ShoppingCart {
 
     public void addItem(Item item) {
         if (!shoppingCart.containsKey(item.getEAN())) {
-            shoppingCart.put(item.EAN.getEANNumber(), new LineItem(item, 1));
+            shoppingCart.put(item.getEAN(), new LineItem(item, 1));
             size++;
         } else {
             shoppingCart.get(item.getEAN()).increaseQuantity();
