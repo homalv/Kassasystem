@@ -3,11 +3,12 @@ import java.time.LocalDateTime;
 
 public class ShoppingCart {
     private static int cartCounter = 0;
-    private final HashMap<Integer, Item> shoppingCart;
+    private final HashMap<String, LineItem> shoppingCart;
     private final LocalDateTime cartDateTime;
     private static int lineItemCounter = 0;
+    private int size = 0;
 
-    public ShoppingCart(){
+    public ShoppingCart() {
         shoppingCart = new HashMap<>();
         cartDateTime = LocalDateTime.now();
         cartCounter++;
@@ -17,20 +18,47 @@ public class ShoppingCart {
         return cartCounter;
     }
 
-    public boolean isEmpty(){
+    public LineItem getLineItemFromShoppingCart(String EAN) {
+        return shoppingCart.get(EAN);
+
+    }
+
+    public boolean isEmpty() {
         return shoppingCart.isEmpty();
     }
 
-    public LocalDateTime getDateTime(){
+    public LocalDateTime getDateTime() {
         return cartDateTime;
     }
 
     public int size() {
-        return shoppingCart.size();
+        return size;
+    }
+
+    public static int getLineItemCounter() {
+        return lineItemCounter;
     }
 
     public void addItem(Item item) {
-        shoppingCart.put(lineItemCounter, item);
-        lineItemCounter++;
+        if (!shoppingCart.containsKey(item.getEAN())) {
+            shoppingCart.put(item.EAN.getEANNumber(), new LineItem(item, 1));
+            size++;
+        } else {
+            shoppingCart.get(item.getEAN()).increaseQuantity();
+            size++;
+        }
+    }
+
+    public void removeItem(Item item) {
+        if (!shoppingCart.containsKey(item.getEAN())) {
+            throw new IllegalArgumentException("No such item exists");
+        }
+        LineItem tempLineItem = shoppingCart.get(item.getEAN());
+        size--;
+        if (tempLineItem.getQuantity() == 1) {
+            shoppingCart.remove(item.getEAN());
+            return;
+        }
+        tempLineItem.decreaseQuantity();
     }
 }
