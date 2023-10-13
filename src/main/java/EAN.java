@@ -11,33 +11,32 @@ public class EAN {
         this.EANNumber += calculateCheckDigit();
     }
 
-    public EAN(String productDigitsOrCompleteEAN) {
-        if (productDigitsOrCompleteEAN.equals(null)) {
+    public EAN(String productDigitsOrCompleteEANNumber) {
+        if (productDigitsOrCompleteEANNumber.equals(null)) {
             throw new NullPointerException();
         }
-        for(char c : productDigitsOrCompleteEAN.toCharArray()){
-            if(!Character.isDigit(c)){
+        for (char c : productDigitsOrCompleteEANNumber.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
+            }
+        }
 
-            
-            throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
-        }}
+        if (productDigitsOrCompleteEANNumber.length() == 4)
 
-    if(productDigitsOrCompleteEAN.length()==4)
+        {
+            createEANFromProductDigits(productDigitsOrCompleteEANNumber);
+            return;
+        }
+        if (productDigitsOrCompleteEANNumber.length() == 13) {
+            createEANFromCompleteEANNumber(productDigitsOrCompleteEANNumber);
+            return;
+        }
 
-    {
-        createEANFromProductDigits(productDigitsOrCompleteEAN);
-        return;
-    }if(productDigitsOrCompleteEAN.length()==13)
-    {
-        createEANFromCompleteEAN(productDigitsOrCompleteEAN);
-        return;
+        throw new IllegalArgumentException();
+
     }
 
-    throw new IllegalArgumentException();
-
-    }
-
-    private void createEANFromCompleteEAN(String completeEAN) {
+    private void createEANFromCompleteEANNumber(String completeEAN) {
         this.EANNumber = completeEAN;
     }
 
@@ -75,7 +74,7 @@ public class EAN {
         }
         for (char c : countryPrefix.toCharArray()) {
             if (!Character.isDigit(c)) {
-                throw new IllegalArgumentException("Only digits are accepted, 0-9");
+                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
             }
         }
         return countryPrefix;
@@ -91,7 +90,7 @@ public class EAN {
         }
         for (char c : manufacturerDigits.toCharArray()) {
             if (!Character.isDigit(c)) {
-                throw new IllegalArgumentException("Only digits are accepted, 0-9");
+                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
             }
         }
         return manufacturerDigits;
@@ -106,7 +105,7 @@ public class EAN {
         }
         for (char c : productDigits.toCharArray()) {
             if (!Character.isDigit(c)) {
-                throw new IllegalArgumentException("Only digits are accepted, 0-9");
+                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
             }
         }
         return productDigits;
