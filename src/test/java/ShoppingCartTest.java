@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.mockito.ArgumentMatchers.contains;
 
 public class ShoppingCartTest {
 
@@ -16,7 +17,7 @@ public class ShoppingCartTest {
     }
 
     @Test
-    void checkLocalDateTimeOnShoppingCart(){
+    void checkLocalDateTimeOnShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime shoppingCartDateTime = shoppingCart.getDateTime();
@@ -26,14 +27,16 @@ public class ShoppingCartTest {
     }
 
     @Test
-    void testAddItemToCart() {
+    void testAddOneItemToCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.addItem(new Item("PINEAPPLE", 2000));
-        assertEquals(1, shoppingCart.size());
+        Item testItem = new Item("PINEAPPLE", 2000);
+        shoppingCart.addItem(testItem);
+        String testItemEAN = testItem.getEAN();
+        assertEquals(testItem, shoppingCart.getLineItemFromShoppingCart(testItemEAN).getItem());
     }
 
     @Test
-    void testGetCartSize() {
+    void testGetCartSizeAfterAdding() {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.addItem(new Item("PINEAPPLE", 2000));
         shoppingCart.addItem(new Item("PINEAPPLE", 2000));
@@ -41,5 +44,35 @@ public class ShoppingCartTest {
         assertEquals(3, shoppingCart.size());
     }
 
+    @Test
+    void testGetCartSizeAfterRemoving() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item("PINEAPPLE", 2000);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.removeItem(testItem);
+        assertEquals(2, shoppingCart.size());
+    }
+
+    @Test
+    void testAddAndRemoveSingleItem() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item("PINEAPPLE", 2000);
+        shoppingCart.addItem(testItem);
+        shoppingCart.removeItem(testItem);
+        assertTrue(shoppingCart.isEmpty());
+    }
+
+    @Test
+    void testQuantityAfterAddAndRemoveOneOfDuplicateItems() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item("PINEAPPLE", 2000);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.removeItem(testItem);
+        assertEquals(1, shoppingCart.getLineItemFromShoppingCart(testItem.getEAN()).getQuantity());
+
+    }
 
 }
