@@ -9,11 +9,9 @@ public class Register {
         this.assortment = assortment;
     }
 
-
     public ShoppingCart getCart() {
         return cart;
     }
-
 
     public void initializePurchase() {
         cart = new ShoppingCart();
@@ -27,6 +25,8 @@ public class Register {
         }
 
         Item item = itemOptional.get();
+
+        LineItem lineItem = new LineItem(item, 1);
 
         cart.addItem(item);
         return true;

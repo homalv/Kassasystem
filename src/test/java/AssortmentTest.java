@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AssortmentTest {
 
+    // TODO --> USE JUnit CSV
+    // TODO --> Use Path
+
     private static final String ASSORTMENT_RESOURCE_PATH = "/test-assortment.csv";
     private static final String NON_CSV_FILE_PATH = "/items.txt";
     private static final String INVALID_PATH = "/invalid/invalid.csv";
