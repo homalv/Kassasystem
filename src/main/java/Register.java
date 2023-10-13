@@ -24,12 +24,19 @@ public class Register {
             return false;
         }
 
-        Item item = itemOptional.get();
-
-        cart.addItem(item);
+        // cart.addItem() should ret boolean
+        cart.addItem(itemOptional.get());
         return true;
     }
+
     public boolean removeFromCart(long ean) {
+        Optional<Item> itemOptional = assortment.getItem(ean);
+        if (itemOptional.isEmpty()) {
+            return false;
+        }
+
+        // cart.removeItem() should ret boolean
+        cart.removeItem(itemOptional.get());
         return true;
     }
 }

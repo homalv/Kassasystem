@@ -25,7 +25,6 @@ class RegisterTest {
         Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
         registerWithInitPurchase = new Register(assortment2);
         registerWithInitPurchase.initializePurchase();
-
     }
 
     @Test
@@ -55,10 +54,10 @@ class RegisterTest {
 
     @Test
     void testAddsItemToCartIfEANInAssortment() {
-        Scanner scanner = mock(Scanner.class);
         when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
 
         assertTrue(registerWithInitPurchase.addToCart(scanner.getEAN()));
+        // Testing to be done ONLY by ShoppingCartTest????
         assertEquals(1, registerWithInitPurchase.getCart().size());
     }
 
@@ -67,10 +66,29 @@ class RegisterTest {
         when(scanner.getEAN()).thenReturn(NON_PRESENT_EAN);
 
         assertFalse(registerWithInitPurchase.addToCart(scanner.getEAN()));
+        // Testing to be done ONLY by ShoppingCartTest????
         assertEquals(0, registerWithInitPurchase.getCart().size());
     }
 
-    // scanToRemoveItem --> cart.remove()
+    @Test
+    void testRemoveItemExistingInCart() {
+        when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
+        registerWithInitPurchase.addToCart(scanner.getEAN());
+
+        assertTrue(registerWithInitPurchase.removeFromCart(PINEAPPLE_EAN));
+    }
+
+
+    @Test
+    void testRemoveItemNotExistingInCart() {
+        when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
+        registerWithInitPurchase.addToCart(scanner.getEAN());
+
+        when(scanner.getEAN()).thenReturn(NON_PRESENT_EAN);
+        assertFalse(registerWithInitPurchase.removeFromCart(NON_PRESENT_EAN));
+    }
+
+
 
     // proceedToPayment (probably not in Register but i UI)
 
