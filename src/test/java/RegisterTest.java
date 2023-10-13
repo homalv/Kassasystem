@@ -65,13 +65,21 @@ class RegisterTest {
         assertEquals(0, registerWithInitPurchase.getCart().size());
     }
 
-    // removeScannedItem
+    // scanToRemoveItem --> cart.remove()
 
+    // proceedToPayment (probably not in Register but i UI)
 
-    // proceedToPayment
+    // chosePaymentMethod(CreditCard || GiftCard)
 
+    // pay ==> Card.collectFunds()
+
+    // IF PAYED THEN printReceipt()
 
     // abortPurchase
 
+    // IF PAYED THEN logg(completedPurchase) --> Store as Purchase
+
+    // getRefund(purchaseId, itemToRefund, chosenRefundPaymentEntity) --> retrievePurchase(purchaseId)
+    // chosenRefundPaymentEntity.refund(long money)
 
 }
