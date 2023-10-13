@@ -1,7 +1,8 @@
 public class EAN {
     private String EANNumber = "";
-    private String DEFAULT_COUNTRY_PREFIX = "012";
-    private String DEFAULT_MANUFACTURER_ID = "34567";
+    private static final String DEFAULT_COUNTRY_PREFIX = "012";
+    private static final String DEFAULT_MANUFACTURER_ID = "34567";
+    private static final String ERROR_MESSAGE_INVALID_CHAR = "Only digits are accepted, 0-9";
 
     public EAN(String countryPrefix, String manufacturerDigits, String productDigits) {
         this.EANNumber += isCountryPrefixValid(countryPrefix);
@@ -10,22 +11,41 @@ public class EAN {
         this.EANNumber += calculateCheckDigit();
     }
 
-    public EAN(String productDigits) {
+    public EAN(String productDigitsOrCompleteEAN) {
+        if (productDigitsOrCompleteEAN.equals(null)) {
+            throw new NullPointerException();
+        }
+        for(char c : productDigitsOrCompleteEAN.toCharArray()){
+            if(!Character.isDigit(c)){
+
+            
+            throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
+        }}
+
+    if(productDigitsOrCompleteEAN.length()==4)
+
+    {
+        createEANFromProductDigits(productDigitsOrCompleteEAN);
+        return;
+    }if(productDigitsOrCompleteEAN.length()==13)
+    {
+        createEANFromCompleteEAN(productDigitsOrCompleteEAN);
+        return;
+    }
+
+    throw new IllegalArgumentException();
+
+    }
+
+    private void createEANFromCompleteEAN(String completeEAN) {
+        this.EANNumber = completeEAN;
+    }
+
+    private void createEANFromProductDigits(String productDigits) {
         this.EANNumber += DEFAULT_COUNTRY_PREFIX;
         this.EANNumber += DEFAULT_MANUFACTURER_ID;
         this.EANNumber += productDigits;
         this.EANNumber += calculateCheckDigit();
-    }
-
-    public EAN(Long completeEAN) {
-        if (completeEAN.equals(null)) {
-            throw new NullPointerException();
-        }
-        String completeEANString = Long.toString(completeEAN);
-        if (completeEANString.length() != 13) {
-            throw new IllegalArgumentException();
-        }
-        this.EANNumber = completeEANString;
     }
 
     public String getEANNumber() {
