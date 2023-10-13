@@ -26,9 +26,10 @@ public class Register {
 
         Item item = itemOptional.get();
 
-        LineItem lineItem = new LineItem(item, 1);
-
         cart.addItem(item);
+        return true;
+    }
+    public boolean removeFromCart(long ean) {
         return true;
     }
 }
