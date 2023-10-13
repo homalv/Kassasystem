@@ -12,14 +12,20 @@ class RegisterTest {
     private static final long NON_PRESENT_EAN = 1000000000001L;
     private Register register;
     private Register registerWithInitPurchase;
+    private Register registerWithMockedCart;
+    private Scanner scanner;
 
     @BeforeEach
     void setUp() {
+        scanner = mock(Scanner.class);
+
         Assortment assortment = new Assortment(ASSORTMENT_RESOURCE_PATH);
         register = new Register(assortment);
+
         Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
         registerWithInitPurchase = new Register(assortment2);
         registerWithInitPurchase.initializePurchase();
+
     }
 
     @Test
@@ -58,7 +64,6 @@ class RegisterTest {
 
     @Test
     void testDoesNotAddItemToCartIfEANNotInAssortment() {
-        Scanner scanner = mock(Scanner.class);
         when(scanner.getEAN()).thenReturn(NON_PRESENT_EAN);
 
         assertFalse(registerWithInitPurchase.addToCart(scanner.getEAN()));
