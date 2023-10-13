@@ -16,7 +16,23 @@ public class LineItem {
         this.item = item;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void increaseQuantity() {
+        this.quantity++;
+    }
+
+    public void decreaseQuantity() {
+        this.quantity--;
+    }
+
     public long getPrice() {
         return item.getPrice() * quantity;
+    }
+
+    public Item getItem() {
+        return item;
     }
 }

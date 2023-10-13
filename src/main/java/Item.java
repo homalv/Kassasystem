@@ -6,6 +6,8 @@ public class Item {
     private final String name;
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
     private static final int NAME_MAX_LENGTH = 30;
+    final EAN EAN = new EAN("1234"); 
+    //TODO FIXA DETTA SKIT
 
     public Item(String name, long price) {
         if (name == null) {
@@ -32,6 +34,9 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
+    }
+    public String getEAN() {
+        return EAN.getEANNumber();
     }
 
     private boolean containsNonISO88591(String name) {
