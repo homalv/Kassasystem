@@ -3,29 +3,35 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EANTest {
-    private final static String VALID_COUNTRY_PREFIX = "012";
-    private final static String VALID_MANUFACTURER_DIGITS = "34567";
-    private final static String VALID_PRODUCT_DIGITS = "8900";
-    private final static String VALID_COMPLETE_EAN = "0123456789005";
-    private final static String INVALID_COUNTRY_PREFIX_TOO_SHORT = "01";
-    private final static String INVALID_COUNTRY_PREFIX_TOO_LONG = "01";
-    private final static String INVALID_COUNTRY_PREFIX_INVALID_CHARS = "a12";
-    private final static String INVALID_MANUFACTURER_DIGITS_TOO_SHORT = "3456";
-    private final static String INVALID_MANUFACTURER_DIGITS_TOO_LONG = "345677";
-    private final static String INVALID_MANUFACTURER_DIGITS_INVALID_CHARS = "a4567";
-    private final static String INVALID_PRODUCT_DIGITS_TOO_SHORT = "890";
-    private final static String INVALID_PRODUCT_DIGITS_TOO_LONG = "89000";
-    private final static String INVALID_PRODUCT_DIGITS_INVALID_CHARS = "a900";
-    private final static String NULL_STRING = null;
+    private static final String VALID_COUNTRY_PREFIX = "012";
+    private static final String VALID_MANUFACTURER_DIGITS = "34567";
+    private static final String VALID_PRODUCT_DIGITS = "8900";
+    private static final String VALID_COMPLETE_EAN = "0123456789005";
+    private static final String INVALID_COUNTRY_PREFIX_TOO_SHORT = "01";
+    private static final String INVALID_COUNTRY_PREFIX_TOO_LONG = "01";
+    private static final String INVALID_COUNTRY_PREFIX_INVALID_CHARS = "a12";
+    private static final String INVALID_MANUFACTURER_DIGITS_TOO_SHORT = "3456";
+    private static final String INVALID_MANUFACTURER_DIGITS_TOO_LONG = "345677";
+    private static final String INVALID_MANUFACTURER_DIGITS_INVALID_CHARS = "a4567";
+    private static final String INVALID_PRODUCT_DIGITS_TOO_SHORT = "890";
+    private static final String INVALID_PRODUCT_DIGITS_TOO_LONG = "89000";
+    private static final String INVALID_PRODUCT_DIGITS_INVALID_CHARS = "a900";
+    private static final String NULL_STRING = null;
 
     @Test
     void testEANWithCorrectValues() { // countryDigits06, manfucturerDigits06, productDigits06
         EAN testEAN = new EAN(VALID_COUNTRY_PREFIX, VALID_MANUFACTURER_DIGITS, VALID_PRODUCT_DIGITS);
         assertEquals(VALID_COMPLETE_EAN, testEAN.getEANNumber());
     }
+
     @Test
     void testEANWithOnlyProductDigits() {
         EAN testEAN = new EAN(VALID_PRODUCT_DIGITS);
+        assertEquals(VALID_COMPLETE_EAN, testEAN.getEANNumber());
+    }
+    @Test
+    void testEANWithCompleteEAN() {
+        EAN testEAN = new EAN(VALID_COMPLETE_EAN);
         assertEquals(VALID_COMPLETE_EAN, testEAN.getEANNumber());
     }
 
