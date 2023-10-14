@@ -60,7 +60,7 @@ private static final int DEFAULT_PRICE = 2000;
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
-        assertEquals(3, shoppingCart.size());
+        assertEquals(3, shoppingCart.numbOfItems());
     }
 
     @Test
@@ -71,7 +71,7 @@ private static final int DEFAULT_PRICE = 2000;
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
-        assertEquals(2, shoppingCart.size());
+        assertEquals(2, shoppingCart.numbOfItems());
     }
 
     @Test
@@ -110,8 +110,9 @@ private static final int DEFAULT_PRICE = 2000;
         Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
-        assertEquals(1, shoppingCart.getLineItemFromShoppingCart(testItem.getEAN()).getQuantity());
+        assertEquals(2, shoppingCart.numbOfItems());
 
     }
     

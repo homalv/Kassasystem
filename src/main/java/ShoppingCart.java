@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class ShoppingCart {
@@ -7,7 +8,7 @@ public class ShoppingCart {
     private final HashMap<String, LineItem> shoppingCart;
     private final LocalDateTime cartDateTime;
     private static int lineItemCounter = 0;
-    private int size = 0;
+
 
     public ShoppingCart() {
         shoppingCart = new HashMap<>();
@@ -32,9 +33,6 @@ public class ShoppingCart {
         return cartDateTime;
     }
 
-    public int size() {
-        return size;
-    }
 
     public static int getLineItemCounter() {
         return lineItemCounter;
@@ -43,10 +41,8 @@ public class ShoppingCart {
     public void addItem(Item item) {
         if(!shoppingCart.containsKey(item.getEAN())) {
             shoppingCart.put(item.getEAN(), new LineItem(item, 1));
-            size++;
         } else {
             shoppingCart.get(item.getEAN()).increaseQuantity();
-            size++;
         }
     }
 
@@ -58,11 +54,18 @@ public class ShoppingCart {
             throw new IllegalArgumentException("No such item exists");
         }
         LineItem tempLineItem = shoppingCart.get(item.getEAN());
-        size--;
         if (tempLineItem.getQuantity() == 1) {
             shoppingCart.remove(item.getEAN());
             return;
         }
         tempLineItem.decreaseQuantity();
+    }
+
+    public int numbOfItems(){
+        int counter =0;
+        for(Map.Entry<String, LineItem>entry : shoppingCart.entrySet()){
+            counter += entry.getValue().getQuantity();
+        }
+        return counter;
     }
 }
