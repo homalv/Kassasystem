@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 public class ShoppingCart {
     private static int cartCounter = 0;
@@ -40,7 +41,7 @@ public class ShoppingCart {
     }
 
     public void addItem(Item item) {
-        if (!shoppingCart.containsKey(item.getEAN())) {
+        if(!shoppingCart.containsKey(item.getEAN())) {
             shoppingCart.put(item.getEAN(), new LineItem(item, 1));
             size++;
         } else {
@@ -50,6 +51,9 @@ public class ShoppingCart {
     }
 
     public void removeItem(Item item) {
+        if(shoppingCart.isEmpty()){
+            throw new IllegalArgumentException("The ShoppingCart is empty.");
+        }
         if (!shoppingCart.containsKey(item.getEAN())) {
             throw new IllegalArgumentException("No such item exists");
         }
