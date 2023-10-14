@@ -68,4 +68,14 @@ public class ShoppingCart {
         }
         return counter;
     }
+
+    public String getTotalPriceInKronor(){
+        long totalPrice = 0;
+        for(Map.Entry<String,LineItem>entry : shoppingCart.entrySet()){
+            totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
+        }
+        double kronor = (double) totalPrice/100.0;
+        String formatedKronor = String.format("%.2f",kronor);
+        return formatedKronor;
+    }
 }

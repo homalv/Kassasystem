@@ -1,9 +1,7 @@
 
 import org.junit.jupiter.api.Test;
-
-import java.lang.instrument.IllegalClassFormatException;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,7 +52,7 @@ private static final int DEFAULT_PRICE = 2000;
         });
     }
 
-    @Test
+    @Test // Det här testet är onödigt nu.
     void testGetCartSizeAfterAdding() {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
@@ -113,6 +111,18 @@ private static final int DEFAULT_PRICE = 2000;
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
         assertEquals(2, shoppingCart.numbOfItems());
+
+    }
+
+    @Test
+    void testGetTotalPriceInShoppingCart(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        assertEquals("80,00", shoppingCart.getTotalPriceInKronor());
 
     }
     
