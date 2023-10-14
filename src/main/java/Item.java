@@ -6,8 +6,8 @@ public class Item {
     private final String name;
     private final EAN EAN;
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
-    private static final int NAME_MAX_LENGTH = 30; 
-    
+    private static final int NAME_MAX_LENGTH = 30;
+
 
     public Item(String name, long price) {
         if (name == null) {
@@ -36,7 +36,8 @@ public class Item {
         this.price = price;
         this.EAN = new EAN("1234");
     }
-        public Item(String name, long price, String productDigits) {
+
+    public Item(String name, long price, String productDigits) {
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
@@ -63,6 +64,7 @@ public class Item {
         this.price = price;
         this.EAN = new EAN(productDigits);
     }
+
     public String getEAN() {
         return EAN.getEANNumber();
     }
