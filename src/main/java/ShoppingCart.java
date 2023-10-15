@@ -74,8 +74,8 @@ public class ShoppingCart {
         for(Map.Entry<String,LineItem>entry : shoppingCart.entrySet()){
             totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
         }
-        double kronor = (double) totalPrice/100.0;
-        String formatedKronor = String.format("%.2f",kronor);
-        return formatedKronor;
+        long kronor = totalPrice/100;
+        long oren = totalPrice%100;
+        return String.format("%d,%02d KR",kronor,oren);
     }
 }

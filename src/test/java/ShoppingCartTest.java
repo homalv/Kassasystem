@@ -117,12 +117,11 @@ private static final int DEFAULT_PRICE = 2000;
     @Test
     void testGetTotalPriceInShoppingCart(){
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        Item testItem = new Item(PINEAPPLE, 2050);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
-        shoppingCart.addItem(testItem);
-        assertEquals("80,00", shoppingCart.getTotalPriceInKronor());
+        assertEquals("61,50 KR", shoppingCart.getTotalPriceInKronor());
 
     }
     
