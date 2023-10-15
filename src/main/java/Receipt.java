@@ -9,17 +9,17 @@ public class Receipt {
     private String serialNumberString;
     private static LocalDate receiptDay;
     private final LocalTime receiptTime;
-    //private ArrayList<LineItem> lineItems; // Kommande implementering
+    private ArrayList<LineItem> lineItems;
 
     /*kvittot har ett serienummer som baseras på dagens datum + fem siffror till.
     Om det är en ny dag så nollställs de sista fem. Exempel 23100500001 */
-    public Receipt(){
+    public Receipt(ArrayList<LineItem> listOfItems){
         updateReceiptDayAndCounter();
         serialNumberCounter ++;
         this.serialNumber = serialNumberCounter;
         this.receiptDay = LocalDate.now();
         this.receiptTime = LocalTime.now();
-        //lineItems = listOfItems; // kommande implementering
+        lineItems = listOfItems;
 
         String datePrefix = receiptDay.format(DateTimeFormatter.ofPattern("yyMMdd"));
         serialNumberString = datePrefix + String.format("%05d",serialNumber);
@@ -34,6 +34,10 @@ public class Receipt {
 
     public String getSerialNumber(){
         return serialNumberString;
+    }
+
+    public ArrayList<LineItem> getLineItems(){
+        return lineItems;
     }
 
     public LocalDate getReceiptDate(){
