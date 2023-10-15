@@ -75,7 +75,7 @@ public class ShoppingCart {
             totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
         }
         long kronor = totalPrice/100;
-        long oren = totalPrice%100;
-        return String.format("%d,%02d KR",kronor,oren);
+        long ore = totalPrice%100;
+        return String.format("%d,%02d KR",kronor,ore);
     }
 }
