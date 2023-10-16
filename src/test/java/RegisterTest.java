@@ -26,7 +26,7 @@ class RegisterTest {
         registerWithInitPurchase.initializePurchase();
     }
 
-    public Register cartWithOneAddedItem() {
+    public Register getRegisterWithCartWithOneAddedItem() {
         Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
         Register registerWithInitPurchase = new Register(assortment2);
         registerWithInitPurchase.initializePurchase();
@@ -105,16 +105,25 @@ class RegisterTest {
         assertFalse(registerWithInitPurchase.removeFromCart(NON_PRESENT_EAN));
     }
 
-    // Can not add to null cart
-    // Can not remove from null cart
-    // Cancel purchase
+    // Test for cancelPurchase()
     @Test
     void testCancelPurchaseSetCartToNull() {
-        Register register = cartWithOneAddedItem();
+        Register register = getRegisterWithCartWithOneAddedItem();
         register.cancelPurchase();
         assertNull(register.getCart());
     }
 
+    @Test
+    void testScanningCompleteTrue() {
+        Register register = getRegisterWithCartWithOneAddedItem();
+        register.setScanningCompleted(true);
+        assertTrue(register.getScanningCompleted());
+    }
+
+    @Test
+    void testScanningCompleteFalse() {
+        assertFalse(getRegisterWithCartWithOneAddedItem().getScanningCompleted());
+    }
 
     // proceedToPayment (probably not in Register but i UI)
 
@@ -123,8 +132,6 @@ class RegisterTest {
     // pay ==> Card.collectFunds()
 
     // IF PAYED THEN printReceipt()
-
-    // abortPurchase
 
     // IF PAYED THEN logg(completedPurchase) --> Store as Purchase
 
