@@ -8,7 +8,7 @@ public class Item {
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
     private static final int NAME_MAX_LENGTH = 30;
 
-
+    // TODO -> REMOVE
     public Item(String name, long price) {
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null");
@@ -37,7 +37,7 @@ public class Item {
         this.EAN = new EAN("1234");
     }
 
-    public Item(String name, long price, String productDigits) {
+    public Item(String name, long price, String EANNumber) {
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
@@ -62,17 +62,19 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = new EAN(productDigits);
+        this.EAN = new EAN(EANNumber);
     }
 
     public String getEAN() {
         return EAN.getEANNumber();
     }
 
+    // Test through CTR
     private boolean containsNonISO88591(String name) {
         return name.chars().anyMatch(c -> c > HIGHEST_ISO88591_CHAR_VALUE);
     }
 
+    // Test through CTR
     private String trim(String name) {
         String trimmedName = name.trim();
 

@@ -24,9 +24,7 @@ public class Register {
             return false;
         }
 
-        // cart.addItem() should ret boolean
-        cart.addItem(itemOptional.get());
-        return true;
+        return cart.addItem(itemOptional.get());
     }
 
     public boolean removeFromCart(long ean) {
@@ -35,8 +33,6 @@ public class Register {
             return false;
         }
 
-        // cart.removeItem() should ret boolean
-        cart.removeItem(itemOptional.get());
-        return true;
+        return cart.removeItem(itemOptional.get());
     }
 }
