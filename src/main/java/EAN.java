@@ -31,9 +31,18 @@ public class EAN {
             createEANFromCompleteEANNumber(productDigitsOrCompleteEANNumber);
             return;
         }
+        if (productDigitsOrCompleteEANNumber.length() == 12){
+            createEANFromEanNumberWithoutCheckDigit(productDigitsOrCompleteEANNumber);
+            return;
+        }
 
         throw new IllegalArgumentException();
 
+    }
+
+    private void createEANFromEanNumberWithoutCheckDigit(String EANNumberExcludingCheckDigit) {
+        this.EANNumber = EANNumberExcludingCheckDigit;
+        this.EANNumber += calculateCheckDigit();
     }
 
     private void createEANFromCompleteEANNumber(String completeEAN) {
