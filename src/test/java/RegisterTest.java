@@ -12,7 +12,6 @@ class RegisterTest {
     private static final long NON_PRESENT_EAN = 1000000000001L;
     private Register register;
     private Register registerWithInitPurchase;
-    private Register registerWithMockedCart;
     private Scanner scanner;
 
     @BeforeEach
@@ -32,12 +31,10 @@ class RegisterTest {
         assertNotNull(register);
     }
 
-
     @Test
     void testShoppingCartNotInitializedUponCreation() {
         assertNull(register.getCart());
     }
-
 
     @Test
     void testInitializePurchaseAssignsNewShoppingCart() {
@@ -78,7 +75,6 @@ class RegisterTest {
         assertTrue(registerWithInitPurchase.removeFromCart(PINEAPPLE_EAN));
     }
 
-
     @Test
     void testRemoveItemNotExistingInCart() {
         when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
@@ -87,7 +83,6 @@ class RegisterTest {
         when(scanner.getEAN()).thenReturn(NON_PRESENT_EAN);
         assertFalse(registerWithInitPurchase.removeFromCart(NON_PRESENT_EAN));
     }
-
 
 
     // proceedToPayment (probably not in Register but i UI)
