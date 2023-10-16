@@ -20,11 +20,11 @@ public class LineItem {
         return quantity;
     }
 
-    public void increaseQuantity() {
+    public void increaseQuantityByOne() {
         this.quantity++;
     }
 
-    public void decreaseQuantity() {
+    public void decreaseQuantityByOne() {
         this.quantity--;
     }
 

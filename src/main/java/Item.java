@@ -37,7 +37,7 @@ public class Item {
         this.EAN = new EAN("1234");
     }
 
-    public Item(String name, long price, String productDigits) {
+    public Item(String name, long price, String EANNumber) {
         if (name == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
@@ -62,7 +62,7 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = new EAN(productDigits);
+        this.EAN = new EAN(EANNumber);
     }
 
     public String getEAN() {

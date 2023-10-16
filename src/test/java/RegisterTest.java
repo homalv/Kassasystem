@@ -58,7 +58,7 @@ class RegisterTest {
 
         assertTrue(registerWithInitPurchase.addToCart(scanner.getEAN()));
         // Testing to be done ONLY by ShoppingCartTest????
-        assertEquals(1, registerWithInitPurchase.getCart().numbOfItems());
+        assertEquals(1, registerWithInitPurchase.getCart().numbOfItemsInShoppingCart());
     }
 
     @Test
@@ -67,7 +67,7 @@ class RegisterTest {
 
         assertFalse(registerWithInitPurchase.addToCart(scanner.getEAN()));
         // Testing to be done ONLY by ShoppingCartTest????
-        assertEquals(0, registerWithInitPurchase.getCart().numbOfItems());
+        assertEquals(0, registerWithInitPurchase.getCart().numbOfItemsInShoppingCart());
     }
 
     @Test
