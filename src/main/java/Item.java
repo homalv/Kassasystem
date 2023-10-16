@@ -38,7 +38,7 @@ public class Item {
     }
 
     public Item(String name, long price, String EANNumber) {
-        if (name == null) {
+        if (name == null || EANNumber == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
 
@@ -62,7 +62,7 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = EANNumber;
+        this.EAN = isEANValid(trimmedName);
     }
 
     public String getEAN() {
@@ -104,5 +104,17 @@ public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(price, name);
+    }
+    
+    private String isEANValid(String EAN) {
+        if (EAN.length() != 13) {
+            throw new IllegalArgumentException("EAN needs to be 13 digits");
+        }
+        for (char c : EAN.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                throw new IllegalArgumentException("Only digits are accepted, 0-9");
+            }
+        }
+        return EAN;
     }
 }

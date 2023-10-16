@@ -14,6 +14,9 @@ class ItemTest {
     private static final int ACCEPTED_NAME_LENGTH = 30;
     private static final String TOO_LONG_NAME = " THISSTRINGCONTAINSOVERTHIRTYCHARS ";
     private static final String ITEM_NAME_WITH_WHITESPACE = "  AN                                    ITEM00!  ";
+    private static final String TOO_LONG_EAN = "1111111111111";
+    private static final String TOO_SHORT_EAN = "11111111111";
+    private static final String EAN_WITH_NON_DIGITS = "1111ea@";
     private Item correctItemObject;
 
     @BeforeEach
@@ -95,4 +98,28 @@ class ItemTest {
         assertTrue(x.equals(y) && y.equals(x));
         assertEquals(x.hashCode(), y.hashCode());
     }
+
+    @Test
+    void testEANWithTooShortEAN() { // countryDigits01
+        assertThrows(IllegalArgumentException.class,
+                () -> new Item(ITEM_NAME, PRICE, TOO_SHORT_EAN));
+
+    }
+
+    @Test
+    void testEANWithTooLongEAN() { // countryDigits01
+        assertThrows(IllegalArgumentException.class,
+                () -> new Item(ITEM_NAME, PRICE, TOO_LONG_EAN));
+
+    }
+    @Test
+    void testEANWithInvalidChars() { // countryDigits05
+        assertThrows(IllegalArgumentException.class,
+                () -> new Item(ITEM_NAME, PRICE, EAN_WITH_NON_DIGITS));
+    }
+    @Test
+    void testNullEAN() {
+        assertThrows(IllegalArgumentException.class, () -> new Item(ITEM_NAME, PRICE, null));
+    }
+
 }
