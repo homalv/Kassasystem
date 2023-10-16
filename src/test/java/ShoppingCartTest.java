@@ -1,20 +1,27 @@
 
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ShoppingCartTest {
 private static final String PINEAPPLE = "PINEAPPLE";
 private static final int DEFAULT_PRICE = 2000;
 
+
 @Test
     void checkEmptyShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
         assertTrue(shoppingCart.isEmpty());
+    }
+
+    @Test
+    void checkNonEmptyShoppingCart() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
+        assertFalse(shoppingCart.isEmpty());
     }
 
     @Test
@@ -37,12 +44,21 @@ private static final int DEFAULT_PRICE = 2000;
     }
 
     @Test
+    void addItemWIthInvalidType(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Object invalidObject = "Not an Item";
+        assertThrows(ClassCastException.class, () -> {
+            shoppingCart.addItem( (Item)invalidObject);
+        });
+    }
+
+    @Test // Det här testet är onödigt nu.
     void testGetCartSizeAfterAdding() {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
-        assertEquals(3, shoppingCart.size());
+        assertEquals(3, shoppingCart.numbOfItems());
     }
 
     @Test
@@ -53,7 +69,7 @@ private static final int DEFAULT_PRICE = 2000;
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
-        assertEquals(2, shoppingCart.size());
+        assertEquals(2, shoppingCart.numbOfItems());
     }
 
     @Test
@@ -66,13 +82,46 @@ private static final int DEFAULT_PRICE = 2000;
     }
 
     @Test
+    void testRemoveFromEmptyShoppingCart() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        assertThrows(IllegalArgumentException.class, () -> {
+            shoppingCart.removeItem(testItem);
+        });
+    }
+
+    // Detta test funkar ännu inte för att alla varor har samma EAN-kod.
+//    @Test
+//    void testRemoveItemThatIsNotInShoppingCart() {
+//        ShoppingCart shoppingCart = new ShoppingCart();
+//        shoppingCart.addItem( new Item(PINEAPPLE, DEFAULT_PRICE));
+//        shoppingCart.addItem( new Item(PINEAPPLE, DEFAULT_PRICE));
+//        Item testItem = new Item("Book", 8500);
+//        assertThrows(IllegalArgumentException.class, () -> {
+//            shoppingCart.removeItem(testItem);
+//        });
+//    }
+
+    @Test
     void testQuantityAfterAddAndRemoveOneOfDuplicateItems() {
         ShoppingCart shoppingCart = new ShoppingCart();
         Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
-        assertEquals(1, shoppingCart.getLineItemFromShoppingCart(testItem.getEAN()).getQuantity());
+        assertEquals(2, shoppingCart.numbOfItems());
+
+    }
+
+    @Test
+    void testGetTotalPriceInShoppingCart(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, 2050);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        assertEquals("61,50 KR", shoppingCart.getTotalPriceInKronor());
 
     }
     
