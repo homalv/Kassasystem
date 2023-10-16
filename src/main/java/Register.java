@@ -17,7 +17,8 @@ public class Register {
         cart = new ShoppingCart();
     }
 
-    public boolean addToCart(long ean) {
+    public boolean addToCart(long eanLong) {
+        String ean = String.valueOf(eanLong); // måste ses över
         if (cart == null) {
             throw new IllegalStateException("Shoppingcart not initialized");
         }
@@ -30,7 +31,8 @@ public class Register {
         return cart.addItem(itemOptional.get());
     }
 
-    public boolean removeFromCart(long ean) {
+    public boolean removeFromCart(long eanLong) {
+        String ean = String.valueOf(eanLong); // måste ses över
         if (cart == null) {
             throw new IllegalStateException("Shoppingcart not initialized");
         }

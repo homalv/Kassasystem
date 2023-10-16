@@ -4,7 +4,7 @@ public class Item {
 
     private final long price;
     private final String name;
-    private final EAN EAN;
+    private final String EAN;
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
     private static final int NAME_MAX_LENGTH = 30;
 
@@ -34,7 +34,7 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = new EAN("1234");
+        this.EAN = "1112345678900";
     }
 
     public Item(String name, long price, String EANNumber) {
@@ -62,11 +62,11 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = new EAN(EANNumber);
+        this.EAN = EANNumber;
     }
 
     public String getEAN() {
-        return EAN.getEANNumber();
+        return EAN;
     }
 
     // Test through CTR
