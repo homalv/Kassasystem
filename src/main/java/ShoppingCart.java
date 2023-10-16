@@ -72,14 +72,11 @@ public class ShoppingCart {
         return String.format("%d,%02d KR", kronor, ore);
     }
 
-    public Receipt completePurchase(){
+    public ArrayList<LineItem> completePurchase(){
         ArrayList<LineItem> listOfItems = new ArrayList<>();
         for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()){
             listOfItems.add(entry.getValue());
         }
-        Receipt receipt = new Receipt(listOfItems);
-
-
-        return receipt;
+        return listOfItems;
     }
 }
