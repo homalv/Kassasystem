@@ -1,3 +1,3 @@
 public interface Scanner {
-    long getEAN();
+    String getEAN();
 }
