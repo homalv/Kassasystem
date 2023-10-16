@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class RegisterTest {
 
     private static final String ASSORTMENT_RESOURCE_PATH = "/production-assortment.csv";
-    private static final long PINEAPPLE_EAN = 1234567890017L;
-    private static final long NON_PRESENT_EAN = 1000000000001L;
+    private static final String PINEAPPLE_EAN = "1234567890017";
+    private static final String NON_PRESENT_EAN = "1000000000001";
     private Register register;
     private Register registerWithInitPurchase;
     private Scanner scanner;
