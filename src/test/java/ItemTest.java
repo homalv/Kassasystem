@@ -14,7 +14,7 @@ class ItemTest {
     private static final int ACCEPTED_NAME_LENGTH = 30;
     private static final String TOO_LONG_NAME = " THISSTRINGCONTAINSOVERTHIRTYCHARS ";
     private static final String ITEM_NAME_WITH_WHITESPACE = "  AN                                    ITEM00!  ";
-    private static final String TOO_LONG_EAN = "1111111111111";
+    private static final String TOO_LONG_EAN = "111111111111111";
     private static final String TOO_SHORT_EAN = "11111111111";
     private static final String EAN_WITH_NON_DIGITS = "1111ea@";
     private Item correctItemObject;

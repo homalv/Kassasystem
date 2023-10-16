@@ -62,7 +62,7 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = isEANValid(trimmedName);
+        this.EAN = isEANValid(EANNumber);
     }
 
     public String getEAN() {
