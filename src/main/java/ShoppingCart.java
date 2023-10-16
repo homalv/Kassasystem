@@ -72,6 +72,15 @@ public class ShoppingCart {
         return String.format("%d,%02d KR", kronor, ore);
     }
 
+    public Long getTotalPriceInOre() {
+        long totalPrice = 0;
+        for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
+            totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
+        }
+
+        return totalPrice;
+    }
+
     public ArrayList<LineItem> completePurchase(){
         ArrayList<LineItem> listOfItems = new ArrayList<>();
         for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()){

@@ -124,6 +124,17 @@ public class ShoppingCartTest {
     }
 
     @Test
+    void testGetTotalPriceInShoppingOre() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, 2050);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        assertEquals(6150L, shoppingCart.getTotalPriceInOre());
+
+    }
+
+    @Test
     void testCompletePurchase(){
         ShoppingCart shoppingCart = new ShoppingCart();
         Item testItem = new Item(PINEAPPLE, 2050);
