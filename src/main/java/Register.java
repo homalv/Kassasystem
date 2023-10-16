@@ -18,6 +18,9 @@ public class Register {
     }
 
     public boolean addToCart(long ean) {
+        if (cart == null) {
+            throw new IllegalStateException("Shoppingcart not initialized");
+        }
         Optional<Item> itemOptional = assortment.getItem(ean);
 
         if (itemOptional.isEmpty()) {
@@ -28,11 +31,19 @@ public class Register {
     }
 
     public boolean removeFromCart(long ean) {
+        if (cart == null) {
+            throw new IllegalStateException("Shoppingcart not initialized");
+        }
         Optional<Item> itemOptional = assortment.getItem(ean);
         if (itemOptional.isEmpty()) {
             return false;
         }
 
         return cart.removeItem(itemOptional.get());
+    }
+
+
+    public void cancelPurchase() {
+        cart = null;
     }
 }

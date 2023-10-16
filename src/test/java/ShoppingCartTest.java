@@ -1,6 +1,9 @@
 
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,10 +29,13 @@ public class ShoppingCartTest {
         ShoppingCart shoppingCart = new ShoppingCart();
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalDateTime shoppingCartDateTime = shoppingCart.getDateTime();
-
         assertEquals(currentDateTime.toLocalDate(), shoppingCartDateTime.toLocalDate());
-        assertEquals(currentDateTime.toLocalTime(), shoppingCartDateTime.toLocalTime());
+
+        Duration difference = Duration.between(currentDateTime.toLocalTime(), shoppingCartDateTime.toLocalTime());
+        long seconds = Math.abs(difference.get(ChronoUnit.SECONDS));
+        assertTrue(seconds < 2);
     }
+
 
     @Test
     void testAddOneItemToCart() {
@@ -83,7 +89,6 @@ public class ShoppingCartTest {
         ShoppingCart shoppingCart = new ShoppingCart();
         Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
         assertFalse(shoppingCart.removeItem(testItem));
-
     }
 
     // Detta test funkar ännu inte för att alla varor har samma EAN-kod.
@@ -105,7 +110,6 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
         assertEquals(2, shoppingCart.numbOfItemsInShoppingCart());
-
     }
 
     @Test

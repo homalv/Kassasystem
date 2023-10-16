@@ -26,6 +26,14 @@ class RegisterTest {
         registerWithInitPurchase.initializePurchase();
     }
 
+    public Register cartWithOneAddedItem() {
+        Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        Register registerWithInitPurchase = new Register(assortment2);
+        registerWithInitPurchase.initializePurchase();
+        registerWithInitPurchase.addToCart(PINEAPPLE_EAN);
+        return registerWithInitPurchase;
+    }
+
     @Test
     void testCreatesRegister() {
         assertNotNull(register);
@@ -49,6 +57,12 @@ class RegisterTest {
         assertNotNull(register.getCart());
     }
 
+    // Tests for addToCart()
+    @Test
+    void testAddToNullCartThrows() {
+        assertThrows(IllegalStateException.class, () -> register.addToCart(PINEAPPLE_EAN));
+    }
+
     @Test
     void testAddsItemToCartIfEANInAssortment() {
         when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
@@ -67,6 +81,13 @@ class RegisterTest {
         assertEquals(0, registerWithInitPurchase.getCart().numbOfItemsInShoppingCart());
     }
 
+    // Tests for removeFromCart()
+    @Test
+    void testRemoveFromNullCartThrows() {
+        assertThrows(IllegalStateException.class, () -> register.removeFromCart(PINEAPPLE_EAN));
+    }
+
+
     @Test
     void testRemoveItemExistingInCart() {
         when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
@@ -82,6 +103,16 @@ class RegisterTest {
 
         when(scanner.getEAN()).thenReturn(NON_PRESENT_EAN);
         assertFalse(registerWithInitPurchase.removeFromCart(NON_PRESENT_EAN));
+    }
+
+    // Can not add to null cart
+    // Can not remove from null cart
+    // Cancel purchase
+    @Test
+    void testCancelPurchaseSetCartToNull() {
+        Register register = cartWithOneAddedItem();
+        register.cancelPurchase();
+        assertNull(register.getCart());
     }
 
 
