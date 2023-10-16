@@ -97,7 +97,7 @@ public class ShoppingCartTest {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
-        Item testItem = new Item("Book", 8500, "1111");
+        Item testItem = new Item("Book", 8500, "0123456789000");
         assertFalse(shoppingCart.removeItem(testItem));
     }
 
