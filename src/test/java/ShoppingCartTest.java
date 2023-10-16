@@ -123,4 +123,13 @@ public class ShoppingCartTest {
 
     }
 
+    @Test
+    void testCompletePurchase(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, 2050);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        assertNotNull(shoppingCart.completePurchase());
+    }
+
 }

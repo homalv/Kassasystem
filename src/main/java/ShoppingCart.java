@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -69,5 +70,16 @@ public class ShoppingCart {
         long kronor = totalPrice / 100;
         long ore = totalPrice % 100;
         return String.format("%d,%02d KR", kronor, ore);
+    }
+
+    public Receipt completePurchase(){
+        ArrayList<LineItem> listOfItems = new ArrayList<>();
+        for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()){
+            listOfItems.add(entry.getValue());
+        }
+        Receipt receipt = new Receipt(listOfItems);
+
+
+        return receipt;
     }
 }
