@@ -8,10 +8,10 @@ import java.util.Optional;
 
 public class Assortment {
 
-    private static final int AMOUNT_OF_CSV_VALUES = 3;
-    private final Map<Long, Item> items = new HashMap<>();
+    private static final int AMOUNT_OF_CSV_VALUES = 4;
+    private final Map<String, Item> items = new HashMap<>();
 
-    public Assortment(String csvResourcePath)  {
+    public Assortment(String csvResourcePath) {
         if (!csvResourcePath.endsWith(".csv")) {
             throw new IllegalArgumentException("Provided resource path is not a CSV file: " + csvResourcePath);
         }
@@ -20,7 +20,7 @@ public class Assortment {
                 new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(csvResourcePath),
                         "Resource not found: " + csvResourcePath)))) {
 
-            reader.readLine();
+            reader.readLine(); // Skip header line
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -30,8 +30,12 @@ public class Assortment {
                     throw new ArrayIndexOutOfBoundsException("CSV file format is incorrect. Ensure each line has the correct number of fields");
                 }
 
-                Long ean = Long.parseLong(parts[0]);
-                Item item = new Item(parts[1], Long.parseLong(parts[2]));
+                String ean = parts[0];
+                String itemName = parts[1];
+                String category = parts[2];
+                long price = Long.parseLong(parts[3]);
+
+                Item item = new Item(itemName, price, ean);
                 items.put(ean, item);
             }
         } catch (IOException e) {
@@ -47,11 +51,11 @@ public class Assortment {
         return items.size();
     }
 
-    public boolean contains(long ean) {
+    public boolean contains(String ean) {
         return items.containsKey(ean);
     }
 
-    public Optional<Item> getItem(long ean) {
+    public Optional<Item> getItem(String ean) {
         return Optional.ofNullable(items.get(ean));
     }
 }
