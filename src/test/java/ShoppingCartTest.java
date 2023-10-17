@@ -1,7 +1,6 @@
 
 import org.junit.jupiter.api.Test;
 
-import javax.sound.sampled.Line;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -143,7 +142,8 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         ArrayList<LineItem> purchasedItems = new ArrayList<>();
-        assertNotNull(shoppingCart.completePurchase());
+        shoppingCart.setPaid(true);
+        assertNotNull(shoppingCart.getLineItemsForPaidPurchase());
         for (LineItem item : purchasedItems) {
             assertTrue(item instanceof LineItem, "Each element should be a LineItem.");
         }
@@ -155,7 +155,8 @@ public class ShoppingCartTest {
         Item testItem = new Item(PINEAPPLE, 2050);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
-        ArrayList<LineItem> purchasedItems = shoppingCart.completePurchase();
+        shoppingCart.setPaid(true);
+        ArrayList<LineItem> purchasedItems = shoppingCart.getLineItemsForPaidPurchase();
         int amount =0;
         for(LineItem item : purchasedItems){
             amount += item.getQuantity();
@@ -173,7 +174,8 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem2);
         shoppingCart.addItem(testItem3);
         shoppingCart.addItem(testItem2);
-        ArrayList<LineItem> purchasedItems = shoppingCart.completePurchase();
+        shoppingCart.setPaid(true);
+        ArrayList<LineItem> purchasedItems = shoppingCart.getLineItemsForPaidPurchase();
         int amount =purchasedItems.size();
         assertEquals(3,amount);
     }

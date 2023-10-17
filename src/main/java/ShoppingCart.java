@@ -6,6 +6,7 @@ import java.util.Map;
 public class ShoppingCart {
     private final HashMap<String, LineItem> shoppingCart;
     private final LocalDateTime cartDateTime;
+    private boolean isPaid;
 
     public ShoppingCart() {
         shoppingCart = new HashMap<>();
@@ -81,11 +82,22 @@ public class ShoppingCart {
         return totalPrice;
     }
 
-    public ArrayList<LineItem> completePurchase(){
+    public ArrayList<LineItem> getLineItemsForPaidPurchase() {
+        if (!isPaid) {
+            return null;
+        }
         ArrayList<LineItem> listOfItems = new ArrayList<>();
-        for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()){
+        for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
             listOfItems.add(entry.getValue());
         }
         return listOfItems;
+    }
+
+    public boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 }
