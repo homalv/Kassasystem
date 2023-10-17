@@ -1,9 +1,11 @@
 
 import org.junit.jupiter.api.Test;
 
+import javax.sound.sampled.Line;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -135,12 +137,45 @@ public class ShoppingCartTest {
     }
 
     @Test
-    void testCompletePurchase(){
+    void testCompletePurchaseReturnsArrayListOfItems(){
         ShoppingCart shoppingCart = new ShoppingCart();
         Item testItem = new Item(PINEAPPLE, 2050);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
+        ArrayList<LineItem> purchasedItems = new ArrayList<>();
         assertNotNull(shoppingCart.completePurchase());
+        for (LineItem item : purchasedItems) {
+            assertTrue(item instanceof LineItem, "Each element should be a LineItem.");
+        }
+    }
+
+    @Test
+    void testCompletePurchaseCorrectAmountOfItems() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, 2050);
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem);
+        ArrayList<LineItem> purchasedItems = shoppingCart.completePurchase();
+        int amount =0;
+        for(LineItem item : purchasedItems){
+            amount += item.getQuantity();
+        }
+        assertEquals(2,amount);
+    }
+
+    @Test
+    void testCompletePurchaseCorrectAmountOfLineItems() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item testItem = new Item(PINEAPPLE, 2050,"1234567890011");
+        Item testItem2 = new Item("Book", 15000,"1234567890012");
+        Item testItem3 = new Item("Juice", 4500, "1234567890013");
+        shoppingCart.addItem(testItem);
+        shoppingCart.addItem(testItem2);
+        shoppingCart.addItem(testItem3);
+        shoppingCart.addItem(testItem2);
+        ArrayList<LineItem> purchasedItems = shoppingCart.completePurchase();
+        int amount =purchasedItems.size();
+        assertEquals(3,amount);
     }
 
 }
