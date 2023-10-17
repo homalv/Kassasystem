@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AssortmentTest {
+public class AssortmentTest {
 
     private static final String PINEAPPLE_EAN = "1234567890043";
     private static final String NON_PRESENT_EAN = "0000000000001";

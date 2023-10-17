@@ -1,3 +1,6 @@
+import assortment.Assortment;
+import item.Item;
+
 import java.util.Optional;
 
 public class Register {
