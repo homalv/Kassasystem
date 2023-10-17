@@ -1,5 +1,9 @@
+import assortment.Assortment;
+import assortment.AssortmentFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.Path;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RegisterTest {
 
-    private static final String ASSORTMENT_RESOURCE_PATH = "/production-assortment.csv";
+    private static final Path ASSORTMENT_RESOURCE_PATH = Path.of("test-assortment.csv");
     private static final String PINEAPPLE_EAN = "1234567890017";
     private static final String NON_PRESENT_EAN = "1000000000001";
     private Register register;
@@ -20,16 +24,16 @@ class RegisterTest {
         scanner = mock(Scanner.class);
         ledger = new ReceiptLedger();
 
-        Assortment assortment = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        Assortment assortment = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
         register = new Register(assortment, ledger);
 
-        Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        Assortment assortment2 = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
         registerWithInitPurchase = new Register(assortment2, ledger);
         registerWithInitPurchase.initializePurchase();
     }
 
     public Register getRegisterWithCartWithOneAddedItem() {
-        Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        Assortment assortment2 = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
         Register registerWithInitPurchase = new Register(assortment2, ledger);
         registerWithInitPurchase.initializePurchase();
         registerWithInitPurchase.addToCart(PINEAPPLE_EAN);
