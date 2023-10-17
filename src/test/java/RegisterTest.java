@@ -13,22 +13,24 @@ class RegisterTest {
     private Register register;
     private Register registerWithInitPurchase;
     private Scanner scanner;
+    private ReceiptLedger ledger;
 
     @BeforeEach
     void setUp() {
         scanner = mock(Scanner.class);
+        ledger = new ReceiptLedger();
 
         Assortment assortment = new Assortment(ASSORTMENT_RESOURCE_PATH);
-        register = new Register(assortment);
+        register = new Register(assortment, ledger);
 
         Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
-        registerWithInitPurchase = new Register(assortment2);
+        registerWithInitPurchase = new Register(assortment2, ledger);
         registerWithInitPurchase.initializePurchase();
     }
 
     public Register getRegisterWithCartWithOneAddedItem() {
         Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
-        Register registerWithInitPurchase = new Register(assortment2);
+        Register registerWithInitPurchase = new Register(assortment2, ledger);
         registerWithInitPurchase.initializePurchase();
         registerWithInitPurchase.addToCart(PINEAPPLE_EAN);
         return registerWithInitPurchase;
@@ -134,12 +136,27 @@ class RegisterTest {
         assertTrue(register.getCart().getIsPaid());
     }
 
-    @Test
-    void testPurchaseIsLogged() {
+/*    @Test
+    void testPayedPurchaseCanCreateReceipt() {
         Register register = getRegisterWithCartWithOneAddedItem();
         register.setScanningCompleted(true);
         register.pay();
+        //assertNotNull(register.createReceipt());
+        assertEquals(new Receipt(register.getCart().getLineItemsForPaidPurchase()), register.createReceipt());
+
+    }*/
+
+    @Test
+    void testPaidPurchaseReceiptIsLogged() {
+        Register register = getRegisterWithCartWithOneAddedItem();
+        register.setScanningCompleted(true);
+        register.pay();
+        assertTrue(register.logReceipt(register.createReceipt()));
     }
+
+
+
+
     // proceedToPayment (probably not in Register but i UI)
 
     // chosePaymentMethod(CreditCard || GiftCard)
