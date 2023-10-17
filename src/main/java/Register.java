@@ -56,4 +56,7 @@ public class Register {
     }
 
 
+    public void pay() {
+        cart.setPaid(true);
+    }
 }

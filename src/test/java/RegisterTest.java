@@ -125,6 +125,21 @@ class RegisterTest {
         assertFalse(getRegisterWithCartWithOneAddedItem().getScanningCompleted());
     }
 
+    // testa spara till logg
+    @Test
+    void testPurchaseIsPaid() {
+        Register register = getRegisterWithCartWithOneAddedItem();
+        register.setScanningCompleted(true);
+        register.pay();
+        assertTrue(register.getCart().getIsPaid());
+    }
+
+    @Test
+    void testPurchaseIsLogged() {
+        Register register = getRegisterWithCartWithOneAddedItem();
+        register.setScanningCompleted(true);
+        register.pay();
+    }
     // proceedToPayment (probably not in Register but i UI)
 
     // chosePaymentMethod(CreditCard || GiftCard)
