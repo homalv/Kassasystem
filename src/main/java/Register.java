@@ -2,12 +2,14 @@ import java.util.Optional;
 
 public class Register {
     private final Assortment assortment;
+    private final ReceiptLedger ledger;
     private ShoppingCart cart;
 
     private boolean scanningCompleted;
 
-    public Register(Assortment assortment) {
+    public Register(Assortment assortment, ReceiptLedger ledger) {
         this.assortment = assortment;
+        this.ledger = ledger;
     }
 
     public ShoppingCart getCart() {
@@ -55,8 +57,26 @@ public class Register {
         this.scanningCompleted = scanningCompleted;
     }
 
-
     public void pay() {
-        cart.setPaid(true);
+        if (getScanningCompleted()) {
+            // Needs additional functionality
+            // Receive payment not impl
+            cart.setPaid(true);
+        }
     }
+
+    // create receipt
+    public Receipt createReceipt() {
+        return new Receipt(cart.getLineItemsForPaidPurchase());
+    }
+
+    // log receipt
+    public boolean logReceipt(Receipt receipt) {
+        return ledger.add(receipt);
+    }
+
+
+
+
+
 }
