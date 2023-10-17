@@ -4,7 +4,6 @@ public class Register {
     private final Assortment assortment;
     private ShoppingCart cart;
 
-
     private boolean scanningCompleted;
 
     public Register(Assortment assortment) {
@@ -44,7 +43,6 @@ public class Register {
         return cart.removeItem(itemOptional.get());
     }
 
-
     public void cancelPurchase() {
         cart = null;
     }
@@ -56,4 +54,6 @@ public class Register {
     public void setScanningCompleted(boolean scanningCompleted) {
         this.scanningCompleted = scanningCompleted;
     }
+
+
 }
