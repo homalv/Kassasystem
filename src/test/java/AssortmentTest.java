@@ -13,7 +13,8 @@ class AssortmentTest {
     private static final String NON_NUMERICAL_STRING_IN_CSV_PATH = "/non-numerical-item-string.csv";
     private static final String OUT_OF_BOUNDS_CSV_PATH = "/oob.csv";
     private static final String PINEAPPLE_EAN = "1234567890017";
-    private final Item pineapple = new Item("Pineapple",200, PINEAPPLE_EAN);
+    private static final String CATEGORY = "Food";
+    private final Item pineapple = new Item("Pineapple",200, PINEAPPLE_EAN, CATEGORY);
 
     @Test
     void ctrThrowsForNonCsvFile() {

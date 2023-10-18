@@ -3,13 +3,14 @@ import java.util.Objects;
 public class Item {
 
     private final long price;
+    private final String category;
     private final String name;
     private final String EAN;
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
     private static final int NAME_MAX_LENGTH = 30;
 
 
-    public Item(String name, long price, String EANNumber) {
+    public Item(String name, long price, String EANNumber, String category) {
         if (name == null || EANNumber == null) {
             throw new IllegalArgumentException("Name cannot be null");
         }
@@ -35,6 +36,7 @@ public class Item {
         this.name = trimmedName;
         this.price = price;
         this.EAN = isEANValid(EANNumber);
+        this.category = category;
     }
 
     public String getEAN() {

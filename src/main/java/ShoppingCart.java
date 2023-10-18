@@ -64,10 +64,7 @@ public class ShoppingCart {
     }
 
     public String getTotalPriceInKronor() {
-        long totalPrice = 0;
-        for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
-            totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
-        }
+        long totalPrice = getTotalPriceInOre();
         long kronor = totalPrice / 100;
         long ore = totalPrice % 100;
         return String.format("%d,%02d KR", kronor, ore);

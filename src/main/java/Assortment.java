@@ -35,7 +35,7 @@ public class Assortment {
                 String category = parts[2];
                 long price = Long.parseLong(parts[3]);
 
-                Item item = new Item(itemName, price, ean);
+                Item item = new Item(itemName, price, ean, category);
                 items.put(ean, item);
             }
         } catch (IOException e) {
