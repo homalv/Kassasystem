@@ -18,7 +18,7 @@ class ItemTest {
     private static final String TOO_SHORT_EAN = "11111111111";
     private static final String EAN_WITH_NON_DIGITS = "1111ea@";
     private static final String VALID_EAN = "1234567890000";
-    private static final String CATEGORY = "food";
+    private static final String CATEGORY = "Food";
     private Item correctItemObject;
 
     @BeforeEach
@@ -28,10 +28,12 @@ class ItemTest {
 
     // P01, N01
     @Test
-    void testCreatesItemWithCorrectNameAndPrice() {
+    void testCreatesItemWithCorrectNamePriceEANAndCategory() {
         Item i = new Item(ITEM_NAME, PRICE, VALID_EAN, CATEGORY);
         assertEquals(1000, i.getPrice());
         assertEquals(ITEM_NAME, i.getName());
+        assertEquals(VALID_EAN, i.getEAN());
+        assertEquals(CATEGORY, i.getCategory());
     }
 
     // P02
@@ -114,14 +116,44 @@ class ItemTest {
                 () -> new Item(ITEM_NAME, PRICE, TOO_LONG_EAN, CATEGORY));
 
     }
+
     @Test
     void testEANWithInvalidChars() { // countryDigits05
         assertThrows(IllegalArgumentException.class,
                 () -> new Item(ITEM_NAME, PRICE, EAN_WITH_NON_DIGITS, CATEGORY));
     }
+
     @Test
     void testNullEAN() {
         assertThrows(IllegalArgumentException.class, () -> new Item(ITEM_NAME, PRICE, null, CATEGORY));
+    }
+    @Test
+    void testGetVatThrowsIfCategoryDoesNotExist(){
+        Item testItem = new Item(ITEM_NAME, 112, VALID_EAN, "sadad");
+        assertThrows(IllegalArgumentException.class, () -> testItem.getVAT());
+    }
+    @Test
+    void testGetVatGivesCorrectValueForFoodItems() {
+        Item testItem = new Item(ITEM_NAME, 112, VALID_EAN, CATEGORY);
+        long testItemVat = testItem.getVAT();
+        assertEquals(12, testItemVat);
+        
+    }
+
+    @Test
+    void testGetVatGivesCorrectValueForLiteratureItems() {
+        Item testItem = new Item(ITEM_NAME, 106, VALID_EAN, "Literature");
+        long testItemVat = testItem.getVAT();
+        assertEquals(6, testItemVat);
+        
+    }
+
+    @Test
+    void testGetVatGivesCorrectValueForOfficeSuppliesItems() {
+        Item testItem = new Item(ITEM_NAME, 125, VALID_EAN, "Office Supplies");
+        long testItemVat = testItem.getVAT();
+        assertEquals(25, testItemVat);
+        
     }
 
 }

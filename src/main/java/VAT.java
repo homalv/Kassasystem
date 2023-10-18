@@ -1,16 +1,16 @@
 public enum VAT {
-    SIX(6),
-    TWELVE(12),
-    TWENTYFIVE(25);
+    LITERATURE(1.06),
+    FOOD(1.12),
+    OFFICE_SUPPLIES(1.25);
 
-    private int percentage;
+    private double percentage;
 
-    VAT(int percentage) {
+    VAT(double percentage) {
         this.percentage = percentage;
     }
 
-    public int getVAT() {
-        return percentage;
-    }
+    public long getVAT(long price) {
+        return (long) (price - price / this.percentage);
 
+    }
 }
