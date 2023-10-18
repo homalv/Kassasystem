@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ShoppingCartTest {
     private static final String PINEAPPLE = "PINEAPPLE";
     private static final int DEFAULT_PRICE = 2000;
+    private static final String VALID_EAN = "1234567890000";
 
     @Test
     void checkEmptyShoppingCart() {
@@ -21,7 +22,7 @@ public class ShoppingCartTest {
     @Test
     void checkNonEmptyShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN));
         assertFalse(shoppingCart.isEmpty());
     }
 
@@ -41,7 +42,7 @@ public class ShoppingCartTest {
     @Test
     void testAddOneItemToCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN);
         shoppingCart.addItem(testItem);
         String testItemEAN = testItem.getEAN();
         assertEquals(testItem, shoppingCart.getLineItemFromShoppingCart(testItemEAN).getItem());
@@ -59,16 +60,16 @@ public class ShoppingCartTest {
     @Test // Det här testet är onödigt nu.
     void testGetCartSizeAfterAdding() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
-        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
-        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN));
         assertEquals(3, shoppingCart.numbOfItemsInShoppingCart());
     }
 
     @Test
     void testGetCartSizeAfterRemoving() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
@@ -79,7 +80,7 @@ public class ShoppingCartTest {
     @Test
     void testAddAndRemoveSingleItem() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
         assertTrue(shoppingCart.isEmpty());
@@ -88,7 +89,7 @@ public class ShoppingCartTest {
     @Test
     void testRemoveFromEmptyShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN);
         assertFalse(shoppingCart.removeItem(testItem));
     }
 
@@ -96,8 +97,8 @@ public class ShoppingCartTest {
     @Test
     void testRemoveItemThatIsNotInShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
-        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN));
+        shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN));
         Item testItem = new Item("Book", 8500, "0123456789000");
         assertFalse(shoppingCart.removeItem(testItem));
     }
@@ -105,7 +106,7 @@ public class ShoppingCartTest {
     @Test
     void testQuantityAfterAddAndRemoveOneOfDuplicateItems() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE);
+        Item testItem = new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
@@ -116,7 +117,7 @@ public class ShoppingCartTest {
     @Test
     void testGetTotalPriceInShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, 2050);
+        Item testItem = new Item(PINEAPPLE, 2050, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
@@ -127,7 +128,7 @@ public class ShoppingCartTest {
     @Test
     void testGetTotalPriceInShoppingOre() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, 2050);
+        Item testItem = new Item(PINEAPPLE, 2050, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
@@ -138,7 +139,7 @@ public class ShoppingCartTest {
     @Test
     void testCompletePurchaseReturnsArrayListOfItems(){
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, 2050);
+        Item testItem = new Item(PINEAPPLE, 2050, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         ArrayList<LineItem> purchasedItems = new ArrayList<>();
@@ -152,7 +153,7 @@ public class ShoppingCartTest {
     @Test
     void testCompletePurchaseCorrectAmountOfItems() {
         ShoppingCart shoppingCart = new ShoppingCart();
-        Item testItem = new Item(PINEAPPLE, 2050);
+        Item testItem = new Item(PINEAPPLE, 2050, VALID_EAN);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.setPaid(true);

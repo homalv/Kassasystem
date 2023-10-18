@@ -8,34 +8,6 @@ public class Item {
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
     private static final int NAME_MAX_LENGTH = 30;
 
-    // TODO -> REMOVE
-    public Item(String name, long price) {
-        if (name == null) {
-            throw new IllegalArgumentException("Name cannot be null");
-        }
-
-        if (name.isBlank()) {
-            throw new IllegalArgumentException("Name cannot be empty or blank");
-        }
-
-        if (containsNonISO88591(name)) {
-            throw new IllegalArgumentException("Contains non-ISO-8859-1");
-        }
-
-        String trimmedName = trim(name);
-        if (trimmedName.length() > NAME_MAX_LENGTH) {
-            throw new IllegalArgumentException("Trimmed string too long");
-        }
-
-        if (price < 0) {
-            throw new IllegalArgumentException("Price must not be negative or above Long.MAX_VALUE");
-
-        }
-
-        this.name = trimmedName;
-        this.price = price;
-        this.EAN = "1112345678900";
-    }
 
     public Item(String name, long price, String EANNumber) {
         if (name == null || EANNumber == null) {

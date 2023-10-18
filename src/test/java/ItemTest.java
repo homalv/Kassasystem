@@ -17,17 +17,18 @@ class ItemTest {
     private static final String TOO_LONG_EAN = "111111111111111";
     private static final String TOO_SHORT_EAN = "11111111111";
     private static final String EAN_WITH_NON_DIGITS = "1111ea@";
+    private static final String VALID_EAN = "1234567890000";
     private Item correctItemObject;
 
     @BeforeEach
     void setUp() {
-        correctItemObject = new Item(ITEM_NAME, PRICE);
+        correctItemObject = new Item(ITEM_NAME, PRICE, VALID_EAN);
     }
 
     // P01, N01
     @Test
     void testCreatesItemWithCorrectNameAndPrice() {
-        Item i = new Item(ITEM_NAME, PRICE);
+        Item i = new Item(ITEM_NAME, PRICE, VALID_EAN);
         assertEquals(1000, i.getPrice());
         assertEquals(ITEM_NAME, i.getName());
     }
@@ -35,50 +36,50 @@ class ItemTest {
     // P02
     @Test
     void testPriceNegativeValue() {
-        assertThrows(IllegalArgumentException.class, () -> new Item(ITEM_NAME, NEGATIVE_PRICE));
+        assertThrows(IllegalArgumentException.class, () -> new Item(ITEM_NAME, NEGATIVE_PRICE, VALID_EAN));
     }
 
     // N02
     @Test
     void testNameContainsNonISOCharsThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new Item(NON_ISO_88591_NAME, PRICE));
+        assertThrows(IllegalArgumentException.class, () -> new Item(NON_ISO_88591_NAME, PRICE, VALID_EAN));
     }
 
     // N03
     @Test
     void testNameStringIsNullThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new Item(null, PRICE));
+        assertThrows(IllegalArgumentException.class, () -> new Item(null, PRICE, VALID_EAN));
     }
 
     // N04, N05
     @Test
     void testNameStringIsEmptyOrBlankThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new Item(EMPTY_STRING, PRICE));
-        assertThrows(IllegalArgumentException.class, () -> new Item(BLANK_STRING, PRICE));
+        assertThrows(IllegalArgumentException.class, () -> new Item(EMPTY_STRING, PRICE, VALID_EAN));
+        assertThrows(IllegalArgumentException.class, () -> new Item(BLANK_STRING, PRICE, VALID_EAN));
     }
 
     // N07
     @Test
     void testTrimmedNameLengthOutsideRangeThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new Item(TOO_LONG_NAME, PRICE));
+        assertThrows(IllegalArgumentException.class, () -> new Item(TOO_LONG_NAME, PRICE, VALID_EAN));
     }
 
     // N06
     @Test
     void testTooLongWithWSTrimmedToWithinRange() {
-        Item i = new Item(ITEM_NAME_WITH_WHITESPACE, PRICE);
+        Item i = new Item(ITEM_NAME_WITH_WHITESPACE, PRICE, VALID_EAN);
         assertEquals(ITEM_NAME, i.getName());
         assertTrue(i.getName().length() < ACCEPTED_NAME_LENGTH);
     }
 
     @Test
     void testEqualsSameValues() {
-        assertEquals(new Item(ITEM_NAME, PRICE), correctItemObject);
+        assertEquals(new Item(ITEM_NAME, PRICE, VALID_EAN), correctItemObject);
     }
 
     @Test
     void testEqualsFalseSameClass() {
-        assertNotEquals(new Item("B", 1), correctItemObject);
+        assertNotEquals(new Item("B", 1, VALID_EAN), correctItemObject);
     }
 
     @Test
@@ -93,8 +94,8 @@ class ItemTest {
 
     @Test
     public void testEqualsSymmetricReflexiveTransitive() {
-        Item x = new Item(ITEM_NAME, PRICE);
-        Item y = new Item(ITEM_NAME, PRICE);
+        Item x = new Item(ITEM_NAME, PRICE, VALID_EAN);
+        Item y = new Item(ITEM_NAME, PRICE, VALID_EAN);
         assertTrue(x.equals(y) && y.equals(x));
         assertEquals(x.hashCode(), y.hashCode());
     }
