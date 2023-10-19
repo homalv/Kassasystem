@@ -129,8 +129,7 @@ class ItemTest {
     }
     @Test
     void testGetVatThrowsIfCategoryDoesNotExist(){
-        Item testItem = new Item(ITEM_NAME, 112, VALID_EAN, "sadad");
-        assertThrows(IllegalArgumentException.class, () -> testItem.getVAT());
+        assertThrows(IllegalArgumentException.class, () -> new Item(ITEM_NAME, 112, VALID_EAN, "sadad"));
     }
     @Test
     void testGetVatGivesCorrectValueForFoodItems() {

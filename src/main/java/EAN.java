@@ -21,9 +21,7 @@ public class EAN {
             }
         }
 
-        if (productDigitsOrCompleteEANNumber.length() == 4)
-
-        {
+        if (productDigitsOrCompleteEANNumber.length() == 4) {
             createEANFromProductDigits(productDigitsOrCompleteEANNumber);
             return;
         }
@@ -31,12 +29,13 @@ public class EAN {
             createEANFromCompleteEANNumber(productDigitsOrCompleteEANNumber);
             return;
         }
-        if (productDigitsOrCompleteEANNumber.length() == 12){
+        if (productDigitsOrCompleteEANNumber.length() == 12) {
             createEANFromEanNumberWithoutCheckDigit(productDigitsOrCompleteEANNumber);
             return;
         }
 
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(
+                "EAN must be either complete, 12 digits excluding the checkdigit or a product code, 4 digits.");
 
     }
 

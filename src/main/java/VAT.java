@@ -1,7 +1,7 @@
 public enum VAT {
-    LITERATURE(1.06),
-    FOOD(1.12),
-    OFFICE_SUPPLIES(1.25);
+    LOW(1.06),
+    REDUCED(1.12),
+    STANDARD(1.25);
 
     private double percentage;
 

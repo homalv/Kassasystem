@@ -3,15 +3,18 @@ import java.util.Objects;
 public class Item {
 
     private final long price;
-    private final String category;
+    private final Category category;
     private final String name;
-    private final String EAN;
+    private final EAN EANNumber;
     private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
     private static final int NAME_MAX_LENGTH = 30;
 
     public Item(String name, long price, String EANNumber, String category) {
-        if (name == null || EANNumber == null) {
+        if (name == null) {
             throw new IllegalArgumentException("Name cannot be null");
+        }
+        if (EANNumber == null){
+            throw new IllegalArgumentException("The EAN number cannot be null");
         }
 
         if (name.isBlank()) {
@@ -42,16 +45,32 @@ public class Item {
 
         this.name = trimmedName;
         this.price = price;
-        this.EAN = EANNumber;
-        this.category = category;
+        this.EANNumber = new EAN(EANNumber);
+        this.category = setCategory(category);
     }
 
     public String getEAN() {
-        return EAN;
+        return EANNumber.getEANNumber();
     }
+
     public String getCategory() {
-        return category;
+        return category.getCategory();
     }
+
+    private Category setCategory(String category) {
+        switch (category) {
+            case "Food":
+                return Category.FOOD;
+            case "Literature":
+                return Category.LITERATURE;
+            case "Office Supplies":
+                return Category.OFFICE_SUPPLIES;
+            default:
+            throw new IllegalArgumentException("Category got to be either Food, Literature or Office Supplies.");
+        }
+
+    }
+
     // Test through CTR
     private boolean containsNonISO88591(String name) {
         return name.chars().anyMatch(c -> c > HIGHEST_ISO88591_CHAR_VALUE);
@@ -73,12 +92,12 @@ public class Item {
 
     public long getVAT() {
         switch (category) {
-            case ("Food"):
-                return VAT.FOOD.getVAT(price);
-            case ("Literature"):
-                return VAT.LITERATURE.getVAT(price);
-            case ("Office Supplies"):
-                return VAT.OFFICE_SUPPLIES.getVAT(price);
+            case FOOD:
+                return VAT.REDUCED.getVAT(price);
+            case LITERATURE:
+                return VAT.LOW.getVAT(price);
+            case OFFICE_SUPPLIES:
+                return VAT.STANDARD.getVAT(price);
             default:
                 throw new IllegalArgumentException("There exists no VAT for this category");
         }
