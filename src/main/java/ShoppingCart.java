@@ -57,7 +57,7 @@ public class ShoppingCart {
         return true;
     }
 
-    public int numbOfItemsInShoppingCart() {
+    public int numOfItemsInShoppingCart() {
         int counter = 0;
         for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
             counter += entry.getValue().getQuantity();

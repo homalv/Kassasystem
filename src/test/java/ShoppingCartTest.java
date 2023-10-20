@@ -65,7 +65,7 @@ public class ShoppingCartTest {
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN, CATEGORY));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN, CATEGORY));
         shoppingCart.addItem(new Item(PINEAPPLE, DEFAULT_PRICE, VALID_EAN, CATEGORY));
-        assertEquals(3, shoppingCart.numbOfItemsInShoppingCart());
+        assertEquals(3, shoppingCart.numOfItemsInShoppingCart());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
-        assertEquals(2, shoppingCart.numbOfItemsInShoppingCart());
+        assertEquals(2, shoppingCart.numOfItemsInShoppingCart());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.removeItem(testItem);
-        assertEquals(2, shoppingCart.numbOfItemsInShoppingCart());
+        assertEquals(2, shoppingCart.numOfItemsInShoppingCart());
     }
 
     @Test

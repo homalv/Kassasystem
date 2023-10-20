@@ -30,5 +30,12 @@ class LineItemTest {
         assertEquals(10000, lineItem.getPrice());
     }
 
+    @Test
+    void testIncreaseQuantityAboveOneHundredUnits(){
+        LineItem lineItem = new LineItem(new Item("Book", 3000, VALID_EAN, CATEGORY), 100);
+        assertThrows(IllegalArgumentException.class,
+                () -> lineItem.increaseQuantityByOne());
+    }
+
 
 }
