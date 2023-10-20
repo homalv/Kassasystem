@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -158,7 +159,7 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.setPaid(true);
-        ArrayList<LineItem> purchasedItems = shoppingCart.getLineItemsForPaidPurchase();
+        List<LineItem> purchasedItems = shoppingCart.getLineItemsForPaidPurchase();
         int amount =0;
         for(LineItem item : purchasedItems){
             amount += item.getQuantity();
@@ -177,7 +178,7 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem3);
         shoppingCart.addItem(testItem2);
         shoppingCart.setPaid(true);
-        ArrayList<LineItem> purchasedItems = shoppingCart.getLineItemsForPaidPurchase();
+        List<LineItem> purchasedItems = shoppingCart.getLineItemsForPaidPurchase();
         int amount =purchasedItems.size();
         assertEquals(3,amount);
     }
