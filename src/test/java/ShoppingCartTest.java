@@ -182,4 +182,20 @@ public class ShoppingCartTest {
         assertEquals(3,amount);
     }
 
+
+    @Test
+    public void testSetPaidToTrueAndChecksStatus() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.setPaid(true);
+        assertTrue(cart.getIsPaid());
+    }
+
+    @Test
+    public void testSetPaidToFalseAndChecksStatus() {
+        ShoppingCart cart = new ShoppingCart();
+        cart.setPaid(true);
+        cart.setPaid(false);
+        assertFalse(cart.getIsPaid());
+    }
+
 }

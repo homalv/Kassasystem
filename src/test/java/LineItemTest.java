@@ -29,4 +29,6 @@ class LineItemTest {
         LineItem lineItem = new LineItem(new Item("BANAN", 2000, VALID_EAN, CATEGORY), 5);
         assertEquals(10000, lineItem.getPrice());
     }
+
+
 }
