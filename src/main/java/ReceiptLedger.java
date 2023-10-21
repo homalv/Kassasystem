@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class ReceiptLedger implements ReceiptRepository {
 
     @Override
@@ -7,6 +9,11 @@ public class ReceiptLedger implements ReceiptRepository {
 
     @Override
     public Receipt get(int serialNumber) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Receipt> getAllReceipts() {
         return null;
     }
 }
