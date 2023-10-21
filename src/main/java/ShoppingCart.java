@@ -11,8 +11,8 @@ public class ShoppingCart {
     private boolean isPaid;
 
     public ShoppingCart() {
-        shoppingCart = new HashMap<>();
-        cartDateTime = LocalDateTime.now();
+        this.shoppingCart = new HashMap<>();
+        this.cartDateTime = LocalDateTime.now();
     }
 
     public LineItem getLineItemFromShoppingCart(String EAN) {
