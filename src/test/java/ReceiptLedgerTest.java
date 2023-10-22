@@ -1,5 +1,10 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Map;
+
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,21 +12,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReceiptLedgerTest {
 
-    private static final String ASSORTMENT_RESOURCE_PATH = "/production-assortment.csv";
+    private static final Path ASSORTMENT_RESOURCE_PATH = Path.of("/production-assortment.csv");
     private static final String PINEAPPLE_EAN = "1234567890017";
     private Register registerWithInitPurchase;
     private ReceiptLedger ledger;
+    private Map<String, Item> items;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         ledger = new ReceiptLedger();
-        Assortment assortment = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        CSVLoader loader = new CSVLoader();
+        CSVParser parser = new CSVParser();
+        items = parser.parse(loader.load(ASSORTMENT_RESOURCE_PATH));
+        Assortment assortment = new Assortment(items);
         registerWithInitPurchase = new Register(assortment, ledger);
         registerWithInitPurchase.initializePurchase();
     }
 
     public Register getRegisterWithCartWithOneAddedItem() {
-        Assortment assortment2 = new Assortment(ASSORTMENT_RESOURCE_PATH);
+        Assortment assortment2 = new Assortment(items);
         Register registerWithInitPurchase = new Register(assortment2, ledger);
         registerWithInitPurchase.initializePurchase();
         registerWithInitPurchase.addToCart(PINEAPPLE_EAN);
