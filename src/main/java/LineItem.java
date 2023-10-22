@@ -1,5 +1,3 @@
-import item.Item;
-
 public class LineItem {
 
     private final Item item;

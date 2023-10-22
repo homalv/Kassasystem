@@ -1,5 +1,3 @@
-import assortment.Assortment;
-import assortment.AssortmentFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

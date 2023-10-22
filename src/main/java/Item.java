@@ -1,5 +1,3 @@
-package item;
-
 import java.util.Objects;
 
 public class Item {

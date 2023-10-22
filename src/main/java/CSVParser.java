@@ -1,7 +1,3 @@
-package assortment;
-
-import item.Item;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

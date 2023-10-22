@@ -1,7 +1,3 @@
-package assortment;
-
-import item.Item;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;

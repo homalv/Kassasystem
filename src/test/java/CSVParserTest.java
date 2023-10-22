@@ -1,12 +1,8 @@
-package assortment;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CSVParserTest {
 
@@ -33,7 +29,7 @@ class CSVParserTest {
     }*/
 
     /*
-     * EAN Code,item.Item Name,Category,Price
+     * EAN Code,Item Name,Category,Price
      * 1234567890010,Sandwich,Food,8000
      * */
 
