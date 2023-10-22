@@ -28,7 +28,7 @@ public class ReceiptLedger implements ReceiptRepository {
     }
 
     private String serializeReceipt(Receipt receipt) {
-        return receipt.toString();
+        return receipt.getSerialNumber();
     }
 
     @Override
