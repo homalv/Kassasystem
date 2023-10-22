@@ -26,7 +26,7 @@ public class CSVParser {
                 throw new IllegalArgumentException("Invalid price format in CSV line: " + line, e);
             }
 
-            Item item = new Item(itemName, price, ean);
+            Item item = new Item(itemName, price, ean, category);
             itemsMap.put(ean, item);
         }
 
