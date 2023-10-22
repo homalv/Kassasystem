@@ -3,6 +3,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LineItemTest {
+    private static final String VALID_EAN = "1234567890000";
+    private static final String CATEGORY = "Food";
 
     @Test
     void testItemNullThrows() {
@@ -13,18 +15,27 @@ class LineItemTest {
     @Test
     void testZeroQuantityThrows() {
         assertThrows(IllegalArgumentException.class,
-                () -> new LineItem(new Item("Banan", 100), 0));
+                () -> new LineItem(new Item("Banan", 100, VALID_EAN, CATEGORY), 0));
     }
 
     @Test
     void testNegativeQuantityThrows() {
         assertThrows(IllegalArgumentException.class,
-                () -> new LineItem(new Item("Banan", 100), -1));
+                () -> new LineItem(new Item("Banan", 100, VALID_EAN, CATEGORY), -1));
     }
 
     @Test
     void testGetPriceReturnCorrect() {
-        LineItem lineItem = new LineItem(new Item("BANAN", 2000), 5);
+        LineItem lineItem = new LineItem(new Item("BANAN", 2000, VALID_EAN, CATEGORY), 5);
         assertEquals(10000, lineItem.getPrice());
     }
+
+    @Test
+    void testIncreaseQuantityAboveOneHundredUnits(){
+        LineItem lineItem = new LineItem(new Item("Book", 3000, VALID_EAN, CATEGORY), 100);
+        assertThrows(IllegalArgumentException.class,
+                () -> lineItem.increaseQuantityByOne());
+    }
+
+
 }

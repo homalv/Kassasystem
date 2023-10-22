@@ -1,16 +1,18 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 public class ShoppingCart {
+    private static final int ONE = 1;
     private final HashMap<String, LineItem> shoppingCart;
     private final LocalDateTime cartDateTime;
     private boolean isPaid;
 
     public ShoppingCart() {
-        shoppingCart = new HashMap<>();
-        cartDateTime = LocalDateTime.now();
+        this.shoppingCart = new HashMap<>();
+        this.cartDateTime = LocalDateTime.now();
     }
 
     public LineItem getLineItemFromShoppingCart(String EAN) {
@@ -31,7 +33,7 @@ public class ShoppingCart {
         }
         String EAN = item.getEAN();
         if (!shoppingCart.containsKey(EAN)) {
-            shoppingCart.put(EAN, new LineItem(item, 1));
+            shoppingCart.put(EAN, new LineItem(item, ONE));
         } else {
             shoppingCart.get(EAN).increaseQuantityByOne();
         }
@@ -47,7 +49,7 @@ public class ShoppingCart {
             return false;
         }
         LineItem tempLineItem = shoppingCart.get(EAN);
-        if (tempLineItem.getQuantity() == 1) {
+        if (tempLineItem.getQuantity() == ONE) {
             shoppingCart.remove(EAN);
             return true;
         }
@@ -55,7 +57,7 @@ public class ShoppingCart {
         return true;
     }
 
-    public int numbOfItemsInShoppingCart() {
+    public int numOfItemsInShoppingCart() {
         int counter = 0;
         for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
             counter += entry.getValue().getQuantity();
@@ -64,16 +66,13 @@ public class ShoppingCart {
     }
 
     public String getTotalPriceInKronor() {
-        long totalPrice = 0;
-        for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
-            totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
-        }
+        long totalPrice = getTotalPriceInOre();
         long kronor = totalPrice / 100;
         long ore = totalPrice % 100;
         return String.format("%d,%02d KR", kronor, ore);
     }
 
-    public Long getTotalPriceInOre() {
+    public long getTotalPriceInOre() {
         long totalPrice = 0;
         for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
             totalPrice += entry.getValue().getItem().getPrice() * entry.getValue().getQuantity();
@@ -82,11 +81,11 @@ public class ShoppingCart {
         return totalPrice;
     }
 
-    public ArrayList<LineItem> getLineItemsForPaidPurchase() {
+    public List<LineItem> getLineItemsForPaidPurchase() {
         if (!isPaid) {
             return null;
         }
-        ArrayList<LineItem> listOfItems = new ArrayList<>();
+        List<LineItem> listOfItems = new ArrayList<>();
         for (Map.Entry<String, LineItem> entry : shoppingCart.entrySet()) {
             listOfItems.add(entry.getValue());
         }

@@ -7,6 +7,7 @@ public class Assortment {
 
     public Assortment(Map<String, Item> items) {
         this.items = items;
+
     }
 
     public int getNumberOfItemsInAssortment() {

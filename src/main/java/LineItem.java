@@ -1,5 +1,7 @@
 public class LineItem {
 
+    private static final int MAXIMUM_QUANTITY_PER_ITEM = 100;
+    private static final int ONE = 1;
     private final Item item;
     private int quantity;
 
@@ -8,8 +10,12 @@ public class LineItem {
             throw new IllegalArgumentException("Item cannot be null");
         }
 
-        if (quantity < 1) {
+        if (quantity < ONE) {
             throw new IllegalArgumentException("Quantity must be at least 1");
+        }
+
+        if ((quantity > MAXIMUM_QUANTITY_PER_ITEM)) {
+            throw new IllegalArgumentException("We are not a wholesale business! Maximum 100 units of every item.");
         }
 
         this.quantity = quantity;
@@ -21,15 +27,26 @@ public class LineItem {
     }
 
     public void increaseQuantityByOne() {
-        this.quantity++;
+        if(quantity <MAXIMUM_QUANTITY_PER_ITEM) {
+            this.quantity++;
+        }else{
+            throw new IllegalArgumentException("We are not a wholesale business! Maximum 100 units of every item.");
+        }
     }
 
     public void decreaseQuantityByOne() {
-        this.quantity--;
+        if(quantity>0) {
+            this.quantity--;
+        }else{
+            throw new IllegalArgumentException("Quantity can't decrease below 0");
+        }
     }
 
     public long getPrice() {
         return item.getPrice() * quantity;
+    }
+    public long getVat() {
+        return item.getVAT() * quantity;
     }
 
     public Item getItem() {

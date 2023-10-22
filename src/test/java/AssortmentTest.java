@@ -19,7 +19,7 @@ public class AssortmentTest {
 
     @BeforeEach
     void setUp() {
-        testItem = new Item("Pineapple", 20000L, PINEAPPLE_EAN);
+        testItem = new Item("Pineapple", 20000L, PINEAPPLE_EAN, "XXXXXXXXXXXXXX>>>>>>>>>>>>>>");
         items = new HashMap<>();
         items.put(testItem.getEAN(), testItem);
         assortment = new Assortment(items);
