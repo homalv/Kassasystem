@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReceiptLedgerTest {
 
-    private static final Path ASSORTMENT_RESOURCE_PATH = Path.of("/production-assortment.csv");
+    private static final Path ASSORTMENT_RESOURCE_PATH = Path.of("assortment.csv");
     private static final String PINEAPPLE_EAN = "1234567890017";
     private Register registerWithInitPurchase;
     private ReceiptLedger ledger;
