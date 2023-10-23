@@ -24,6 +24,15 @@ public class ReceiptTest {
         assertTrue(Long.parseLong(serialNumber) > 0L);
     }
 
+    @Test
+    void checkNotValidSerialNumber(){
+        Receipt receipt = mock(Receipt.class);
+        when(receipt.getSerialNumber()).thenReturn("-1");
+        String serialNumber = receipt.getSerialNumber();
+        assertFalse(Long.parseLong(serialNumber) > 0L);
+    }
+
+
       /* OBS! Detta test räknar samtliga instanser av receipt och funkar
     bara om "expected" är lika med antalet instanser under testet */
       @Test

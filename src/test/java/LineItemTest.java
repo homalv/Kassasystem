@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class LineItemTest {
     private static final String VALID_EAN = "1234567890000";
@@ -23,6 +25,16 @@ class LineItemTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new LineItem(new Item("Banan", 100, VALID_EAN, CATEGORY), -1));
     }
+
+    @Test
+    void testDecreaseQuantityFromZeroThrows(){
+        Item mockedItem = mock(Item.class);
+        LineItem lineItem = new LineItem(mockedItem, 1);
+        lineItem.decreaseQuantityByOne();
+        assertThrows(IllegalArgumentException.class,
+                () -> lineItem.decreaseQuantityByOne());
+    }
+
 
     @Test
     void testGetPriceReturnCorrect() {
