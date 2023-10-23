@@ -1,0 +1,225 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EAN</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: EAN (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EAN</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,1%
+  </span>
+  <span class="absValue">
+    (49/59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;public class EAN {
+<b class="fc">&nbsp;    private String EANNumber = &quot;&quot;;</b>
+&nbsp;    private static final String DEFAULT_COUNTRY_PREFIX = &quot;012&quot;;
+&nbsp;    private static final String DEFAULT_MANUFACTURER_ID = &quot;34567&quot;;
+&nbsp;    private static final String ERROR_MESSAGE_INVALID_CHAR = &quot;Only digits are accepted, 0-9&quot;;
+&nbsp;
+<b class="fc">&nbsp;    public EAN(String countryPrefix, String manufacturerDigits, String productDigits) {</b>
+<b class="fc">&nbsp;        this.EANNumber += isCountryPrefixValid(countryPrefix);</b>
+<b class="fc">&nbsp;        this.EANNumber += isManufacturerDigitsValid(manufacturerDigits);</b>
+<b class="fc">&nbsp;        this.EANNumber += isProductDigitsValid(productDigits);</b>
+<b class="fc">&nbsp;        this.EANNumber += calculateCheckDigit();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public EAN(String productDigitsOrCompleteEANNumber) {</b>
+<b class="fc">&nbsp;        if (productDigitsOrCompleteEANNumber.equals(null)) {</b>
+<b class="nc">&nbsp;            throw new NullPointerException();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (char c : productDigitsOrCompleteEANNumber.toCharArray()) {</b>
+<b class="fc">&nbsp;            if (!Character.isDigit(c)) {</b>
+<b class="nc">&nbsp;                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (productDigitsOrCompleteEANNumber.length() == 4) {</b>
+<b class="fc">&nbsp;            createEANFromProductDigits(productDigitsOrCompleteEANNumber);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        if (productDigitsOrCompleteEANNumber.length() == 13) {</b>
+<b class="fc">&nbsp;            createEANFromCompleteEANNumber(productDigitsOrCompleteEANNumber);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if (productDigitsOrCompleteEANNumber.length() == 12) {</b>
+<b class="nc">&nbsp;            createEANFromEanNumberWithoutCheckDigit(productDigitsOrCompleteEANNumber);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        throw new IllegalArgumentException(</b>
+&nbsp;                &quot;EAN must be either complete, 12 digits excluding the checkdigit or a product code, 4 digits.&quot;);
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private void createEANFromEanNumberWithoutCheckDigit(String EANNumberExcludingCheckDigit) {
+<b class="nc">&nbsp;        this.EANNumber = EANNumberExcludingCheckDigit;</b>
+<b class="nc">&nbsp;        this.EANNumber += calculateCheckDigit();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void createEANFromCompleteEANNumber(String completeEAN) {
+<b class="fc">&nbsp;        this.EANNumber = completeEAN;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void createEANFromProductDigits(String productDigits) {
+<b class="fc">&nbsp;        this.EANNumber += DEFAULT_COUNTRY_PREFIX;</b>
+<b class="fc">&nbsp;        this.EANNumber += DEFAULT_MANUFACTURER_ID;</b>
+<b class="fc">&nbsp;        this.EANNumber += productDigits;</b>
+<b class="fc">&nbsp;        this.EANNumber += calculateCheckDigit();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEANNumber() {
+<b class="fc">&nbsp;        return EANNumber;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int calculateCheckDigit() {
+<b class="fc">&nbsp;        char[] EANArray = EANNumber.toCharArray();</b>
+<b class="fc">&nbsp;        int checkDigitSum = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; EANArray.length; i++) {</b>
+<b class="fc">&nbsp;            int digit = Character.getNumericValue(EANArray[i]);</b>
+<b class="fc">&nbsp;            if ((i) % 2 == 0) {</b>
+<b class="fc">&nbsp;                checkDigitSum += digit * 3;</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                checkDigitSum += digit;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return 10 - (checkDigitSum % 10);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String isCountryPrefixValid(String countryPrefix) {
+<b class="fc">&nbsp;        if (countryPrefix.length() != 3) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Country prefix needs to be 3 digits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (countryPrefix.equals(null)) {</b>
+<b class="nc">&nbsp;            throw new NullPointerException(&quot;Country prefix can&#39;t be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (char c : countryPrefix.toCharArray()) {</b>
+<b class="fc">&nbsp;            if (!Character.isDigit(c)) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return countryPrefix;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private String isManufacturerDigitsValid(String manufacturerDigits) {
+<b class="fc">&nbsp;        if (manufacturerDigits.length() != 5) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Manufacturer digits needs to be 5 digits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (manufacturerDigits.equals(null)) {</b>
+<b class="nc">&nbsp;            throw new NullPointerException(&quot;Manufacturer digits can&#39;t be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (char c : manufacturerDigits.toCharArray()) {</b>
+<b class="fc">&nbsp;            if (!Character.isDigit(c)) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return manufacturerDigits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String isProductDigitsValid(String productDigits) {
+<b class="fc">&nbsp;        if (productDigits.length() != 4) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Manufacturer digits needs to be 4 digits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (productDigits.equals(null)) {</b>
+<b class="nc">&nbsp;            throw new NullPointerException(&quot;Manufacturer digits can&#39;t be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (char c : productDigits.toCharArray()) {</b>
+<b class="fc">&nbsp;            if (!Character.isDigit(c)) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return productDigits;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-23 11:52</div>
+</div>
+</body>
+</html>

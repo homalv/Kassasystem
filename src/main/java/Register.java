@@ -21,9 +21,7 @@ public class Register {
     }
 
     public boolean addToCart(String ean) {
-        if (cart == null) {
-            throw new IllegalStateException("Shoppingcart not initialized");
-        }
+        canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
 
         if (itemOptional.isEmpty()) {
@@ -34,15 +32,23 @@ public class Register {
     }
 
     public boolean removeFromCart(String ean) {
-        if (cart == null) {
-            throw new IllegalStateException("Shoppingcart not initialized");
-        }
+        canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
         if (itemOptional.isEmpty()) {
             return false;
         }
 
         return cart.removeItem(itemOptional.get());
+    }
+
+    private void canModifyCart() {
+        if (scanningCompleted) {
+            throw new IllegalStateException("Scanning is completed");
+        }
+
+        if (cart == null) {
+            throw new IllegalStateException("Shoppingcart not initialized");
+        }
     }
 
     public void cancelPurchase() {
@@ -74,6 +80,8 @@ public class Register {
     public boolean logReceipt(Receipt receipt) {
         return ledger.add(receipt);
     }
+
+    // complete purchase
 
 
 

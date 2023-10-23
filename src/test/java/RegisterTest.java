@@ -30,6 +30,7 @@ class RegisterTest {
         registerWithInitPurchase.initializePurchase();
     }
 
+    // SETUP METHOD
     public Register getRegisterWithCartWithOneAddedItem() {
         Assortment assortment2 = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
         Register registerWithInitPurchase = new Register(assortment2, ledger);
@@ -38,6 +39,7 @@ class RegisterTest {
         return registerWithInitPurchase;
     }
 
+    // Register instance initialization
     @Test
     void testCreatesRegister() {
         assertNotNull(register);
@@ -85,6 +87,13 @@ class RegisterTest {
         assertEquals(0, registerWithInitPurchase.getCart().numOfItemsInShoppingCart());
     }
 
+    @Test
+    void testCannotAddIfScanningCompleted() {
+        Register register = getRegisterWithCartWithOneAddedItem();
+        register.setScanningCompleted(true);
+        assertThrows(IllegalStateException.class, () -> register.addToCart(PINEAPPLE_EAN));
+    }
+
     // Tests for removeFromCart()
     @Test
     void testRemoveFromNullCartThrows() {
@@ -109,6 +118,13 @@ class RegisterTest {
         assertFalse(registerWithInitPurchase.removeFromCart(NON_PRESENT_EAN));
     }
 
+    @Test
+    void testCannotRemoveIfScanningCompleted() {
+        Register register = getRegisterWithCartWithOneAddedItem();
+        register.setScanningCompleted(true);
+        assertThrows(IllegalStateException.class, () -> register.removeFromCart(PINEAPPLE_EAN));
+    }
+
     // Test for cancelPurchase()
     @Test
     void testCancelPurchaseSetCartToNull() {
@@ -117,6 +133,7 @@ class RegisterTest {
         assertNull(register.getCart());
     }
 
+    // Scanning
     @Test
     void testScanningCompleteTrue() {
         Register register = getRegisterWithCartWithOneAddedItem();
@@ -129,7 +146,7 @@ class RegisterTest {
         assertFalse(getRegisterWithCartWithOneAddedItem().getScanningCompleted());
     }
 
-    // testa spara till logg
+    // Payment
     @Test
     void testPurchaseIsPaid() {
         Register register = getRegisterWithCartWithOneAddedItem();
@@ -138,16 +155,7 @@ class RegisterTest {
         assertTrue(register.getCart().getIsPaid());
     }
 
-/*    @Test
-    void testPayedPurchaseCanCreateReceipt() {
-        Register register = getRegisterWithCartWithOneAddedItem();
-        register.setScanningCompleted(true);
-        register.pay();
-        //assertNotNull(register.createReceipt());
-        assertEquals(new Receipt(register.getCart().getLineItemsForPaidPurchase()), register.createReceipt());
-
-    }*/
-
+    // Logging
     @Test
     void testPaidPurchaseReceiptIsLogged() {
         Register register = getRegisterWithCartWithOneAddedItem();
@@ -157,19 +165,19 @@ class RegisterTest {
     }
 
 
+    // Refund
+
+    // getRefund(purchaseId, itemToRefund, chosenRefundPaymentEntity) --> retrievePurchase(purchaseId)
+
+    // chosenRefundPaymentEntity.refund(long money)
 
 
-    // proceedToPayment (probably not in Register but i UI)
 
-    // chosePaymentMethod(CreditCard || GiftCard)
-
-    // pay ==> Card.collectFunds()
+    // Print -> Register.print() --> MockPrinter
 
     // IF PAYED THEN printReceipt()
 
-    // IF PAYED THEN logg(completedPurchase) --> Store as Purchase
+    // IF PAYED THEN logg(completedPurchase)
 
-    // getRefund(purchaseId, itemToRefund, chosenRefundPaymentEntity) --> retrievePurchase(purchaseId)
-    // chosenRefundPaymentEntity.refund(long money)
 
 }
