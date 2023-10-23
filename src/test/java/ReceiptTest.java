@@ -6,8 +6,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ReceiptTest {
     private ArrayList<LineItem> lineOfItems;
@@ -20,13 +23,15 @@ public class ReceiptTest {
         String serialNumber = receipt.getSerialNumber();
         assertTrue(Long.parseLong(serialNumber) > 0L);
     }
-    
-    // @Test  //Detta test räknar samtliga instanser av receipt har därför sitt fjärde test här. Måste lösa detta.
-    // void checkFormatOfSerialNumber_DateAndSerial(){
-    //     Receipt receipt = new Receipt(lineOfItems);
-    //     String currentDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
-    //     assertEquals(currentDay+"00001", receipt.getSerialNumber());
-    // }
+
+      /* OBS! Detta test räknar samtliga instanser av receipt och funkar
+    bara om "expected" är lika med antalet instanser under testet */
+      @Test
+      void checkFormatOfSerialNumber_DateAndSerial(){
+         Receipt receipt = new Receipt(lineOfItems);
+         String currentDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+         assertEquals(currentDay+"00006", receipt.getSerialNumber());
+     }
 
     @Test
     void checkLocalTimeOnReceipt() {
@@ -50,10 +55,17 @@ public class ReceiptTest {
         assertNotNull(receipt.getLineItems());
     }
 
-// Ta emot en samling LineItems
-// Räkna antal varor
-// Räkna totalsumma
-// Räkna Moms
+    @Test
+    void testGetSameListOfLineItems() {
+        Item mockedItem = mock(Item.class);
+        when(mockedItem.getEAN()).thenReturn("EAN");
+        List<LineItem> lineItems = new ArrayList<>();
+        lineItems.add(new LineItem(mockedItem,10));
+        Receipt receipt = new Receipt(lineItems);
+        assertEquals(lineItems, receipt.getLineItems());
+    }
+
+
 
 
 }
