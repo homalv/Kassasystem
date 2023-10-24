@@ -64,6 +64,9 @@ public class Register {
     }
 
     public void pay() {
+        if (cart.isEmpty()) {
+            return;
+        }
         if (getScanningCompleted()) {
             // Needs additional functionality
             // Receive payment not impl
