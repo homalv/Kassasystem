@@ -2,12 +2,15 @@ import java.util.Objects;
 
 public class Item {
 
+    private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
+    private static final int NAME_MAX_LENGTH = 30;
+    private static final int THIRTEEN = 13;
+    private static final String REGEX = "\\s{2,}";
     private final long price;
     private final Category category;
     private final String name;
     private final EAN EANNumber;
-    private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
-    private static final int NAME_MAX_LENGTH = 30;
+
 
     public Item(String name, long price, String EANNumber, String category) {
         if (name == null) {
@@ -34,7 +37,7 @@ public class Item {
             throw new IllegalArgumentException("Price must not be negative or above Long.MAX_VALUE");
 
         }
-        if (EANNumber.length() != 13) {
+        if (EANNumber.length() != THIRTEEN) {
             throw new IllegalArgumentException("EAN needs to be 13 digits");
         }
         for (char c : EANNumber.toCharArray()) {
@@ -81,7 +84,7 @@ public class Item {
         String trimmedName = name.trim();
 
         // Regex: Delete all whitespaces between words when there are more than one
-        trimmedName = trimmedName.replaceAll("\\s{2,}", " ");
+        trimmedName = trimmedName.replaceAll(REGEX, " ");
 
         return trimmedName;
     }
@@ -109,18 +112,17 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {
+            return true;}
+        if (o == null || getClass() != o.getClass()) {
+            return false;}
         Item item = (Item) o;
-        return price == item.price &&
-                name.equals(item.name);
+        return Objects.equals(EANNumber.getEANNumber(), item.EANNumber.getEANNumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(price, name);
+        return Objects.hash(EANNumber.getEANNumber());
     }
 
 }

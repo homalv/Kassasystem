@@ -123,7 +123,7 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
-        assertEquals("61,50 KR", shoppingCart.getTotalPriceInKronor());
+        assertEquals("61,50 KR", shoppingCart.getStringWithTotalPriceInKronor());
 
     }
 
@@ -188,7 +188,7 @@ public class ShoppingCartTest {
     public void testSetPaidToTrueAndChecksStatus() {
         ShoppingCart cart = new ShoppingCart();
         cart.setPaid(true);
-        assertTrue(cart.getIsPaid());
+        assertTrue(cart.isPaid());
     }
 
     @Test
@@ -196,7 +196,7 @@ public class ShoppingCartTest {
         ShoppingCart cart = new ShoppingCart();
         cart.setPaid(true);
         cart.setPaid(false);
-        assertFalse(cart.getIsPaid());
+        assertFalse(cart.isPaid());
     }
 
 }

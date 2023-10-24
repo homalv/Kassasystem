@@ -18,6 +18,8 @@ class ItemTest {
     private static final String TOO_SHORT_EAN = "11111111111";
     private static final String EAN_WITH_NON_DIGITS = "1111ea@";
     private static final String VALID_EAN = "1234567890000";
+    private static final String VALID_SECOND_EAN = "1234567890102";
+
     private static final String CATEGORY = "Food";
     private Item correctItemObject;
 
@@ -82,7 +84,7 @@ class ItemTest {
 
     @Test
     void testEqualsFalseSameClass() {
-        assertNotEquals(new Item("B", 1, VALID_EAN, CATEGORY), correctItemObject);
+        assertNotEquals(new Item("B", 1, VALID_SECOND_EAN, CATEGORY), correctItemObject);
     }
 
     @Test

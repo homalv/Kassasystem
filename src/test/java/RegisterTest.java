@@ -152,7 +152,7 @@ class RegisterTest {
         Register register = getRegisterWithCartWithOneAddedItem();
         register.setScanningCompleted(true);
         register.pay();
-        assertTrue(register.getCart().getIsPaid());
+        assertTrue(register.getCart().isPaid());
     }
 
     // Logging

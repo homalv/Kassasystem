@@ -8,7 +8,7 @@ public class Receipt {
     private static int serialNumberCounter = 0;
     private int serialNumber;
     private String serialNumberString;
-    private static LocalDate receiptDay;
+    private LocalDate receiptDay;
     private final LocalTime receiptTime;
     private List<LineItem> lineItems;
 
@@ -27,7 +27,7 @@ public class Receipt {
 
     }
 
-    private static void updateReceiptDayAndCounter() {
+    private  void updateReceiptDayAndCounter() {
         if (receiptDay == null || LocalDate.now().isAfter(receiptDay)) {
             serialNumberCounter = 0;
         }

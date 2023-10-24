@@ -32,14 +32,11 @@ public class ReceiptTest {
         assertFalse(Long.parseLong(serialNumber) > 0L);
     }
 
-
-      /* OBS! Detta test räknar samtliga instanser av receipt och funkar
-    bara om "expected" är lika med antalet instanser under testet */
       @Test
       void checkFormatOfSerialNumber_DateAndSerial(){
          Receipt receipt = new Receipt(lineOfItems);
          String currentDay = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
-         assertEquals(currentDay+"00006", receipt.getSerialNumber());
+         assertEquals(currentDay+"00001", receipt.getSerialNumber());
      }
 
     @Test

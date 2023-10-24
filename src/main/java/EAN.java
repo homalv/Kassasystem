@@ -1,3 +1,5 @@
+
+
 public class EAN {
     private String EANNumber = "";
     private static final String DEFAULT_COUNTRY_PREFIX = "012";
@@ -5,9 +7,9 @@ public class EAN {
     private static final String ERROR_MESSAGE_INVALID_CHAR = "Only digits are accepted, 0-9";
 
     public EAN(String countryPrefix, String manufacturerDigits, String productDigits) {
-        this.EANNumber += isCountryPrefixValid(countryPrefix);
-        this.EANNumber += isManufacturerDigitsValid(manufacturerDigits);
-        this.EANNumber += isProductDigitsValid(productDigits);
+        this.EANNumber += countryPrefixValidator(countryPrefix);
+        this.EANNumber += manufacturerDigitsValidator(manufacturerDigits);
+        this.EANNumber += productDigitsValidator(productDigits);
         this.EANNumber += calculateCheckDigit();
     }
 
@@ -64,7 +66,7 @@ public class EAN {
         int checkDigitSum = 0;
         for (int i = 0; i < EANArray.length; i++) {
             int digit = Character.getNumericValue(EANArray[i]);
-            if ((i) % 2 == 0) {
+            if ((i) % 2 == 1) {
                 checkDigitSum += digit * 3;
             } else {
                 checkDigitSum += digit;
@@ -73,7 +75,7 @@ public class EAN {
         return 10 - (checkDigitSum % 10);
     }
 
-    private String isCountryPrefixValid(String countryPrefix) {
+    private String countryPrefixValidator(String countryPrefix) {
         if (countryPrefix.length() != 3) {
             throw new IllegalArgumentException("Country prefix needs to be 3 digits");
         }
@@ -89,7 +91,7 @@ public class EAN {
 
     }
 
-    private String isManufacturerDigitsValid(String manufacturerDigits) {
+    private String manufacturerDigitsValidator(String manufacturerDigits) {
         if (manufacturerDigits.length() != 5) {
             throw new IllegalArgumentException("Manufacturer digits needs to be 5 digits");
         }
@@ -104,7 +106,7 @@ public class EAN {
         return manufacturerDigits;
     }
 
-    private String isProductDigitsValid(String productDigits) {
+    private String productDigitsValidator(String productDigits) {
         if (productDigits.length() != 4) {
             throw new IllegalArgumentException("Manufacturer digits needs to be 4 digits");
         }

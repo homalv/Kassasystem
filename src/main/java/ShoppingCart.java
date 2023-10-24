@@ -65,7 +65,7 @@ public class ShoppingCart {
         return counter;
     }
 
-    public String getTotalPriceInKronor() {
+    public String getStringWithTotalPriceInKronor() {
         long totalPrice = getTotalPriceInOre();
         long kronor = totalPrice / 100;
         long ore = totalPrice % 100;
@@ -92,7 +92,7 @@ public class ShoppingCart {
         return listOfItems;
     }
 
-    public boolean getIsPaid() {
+    public boolean isPaid() {
         return isPaid;
     }
 
