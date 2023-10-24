@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class ShoppingCartTest {
     private static final String PINEAPPLE = "PINEAPPLE";
@@ -117,6 +118,34 @@ public class ShoppingCartTest {
     }
 
     @Test
+    void testNullForLineItemsWithPaidPurchase(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        Item item1 = mock(Item.class);
+        Item item2 = mock(Item.class);
+        shoppingCart.addItem(item1);
+        shoppingCart.addItem(item2);
+        shoppingCart.setPaid(false);
+        List<LineItem>lineItems = shoppingCart.getLineItemsForPaidPurchase();
+
+        assertNull(lineItems);
+    }
+
+    @Test
+    void testRemoveItemWithNullItem() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        boolean removed = shoppingCart.removeItem(null);
+        assertFalse(removed);
+        assertTrue(shoppingCart.isEmpty());
+    }
+
+    @Test
+    void testAddItemWithNull(){
+        ShoppingCart shoppingCart = new ShoppingCart();
+        boolean empty = shoppingCart.addItem(null);
+        assertFalse(empty);
+    }
+
+    @Test
     void testGetTotalPriceInShoppingCart() {
         ShoppingCart shoppingCart = new ShoppingCart();
         Item testItem = new Item(PINEAPPLE, 2050, VALID_EAN, CATEGORY);
@@ -124,7 +153,6 @@ public class ShoppingCartTest {
         shoppingCart.addItem(testItem);
         shoppingCart.addItem(testItem);
         assertEquals("61,50 KR", shoppingCart.getStringWithTotalPriceInKronor());
-
     }
 
     @Test
