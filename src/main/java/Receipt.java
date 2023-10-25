@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
-    private static int serialNumberCounter = 0;
+    private int serialNumberCounter = 0;
     private int serialNumber;
     private String serialNumberString;
     private LocalDate receiptDay;

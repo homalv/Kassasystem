@@ -60,7 +60,7 @@ public class RegisterStateMachineTest {
 
         // PA
         register.pay();
-        assertTrue(register.getCart().getIsPaid());
+        assertTrue(register.getCart().isPaid());
 
         // RC --> TODO weak test?
         Receipt receiptToLog = register.createReceipt();
