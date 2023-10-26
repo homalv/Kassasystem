@@ -8,14 +8,11 @@ import java.util.List;
 
 public class CSVLoader {
 
-    /**
-     * Load the CSV file from the given resource path into a list of lines.
-     *
-     * @param csvResourcePath Path to the CSV resource.
-     * @return A list of lines from the CSV file.
-     * @throws IOException If an error occurs while reading the file.
-     */
-    public List<String> load(Path csvResourcePath) throws IOException {
+    private static final int MAX_LINES_IN_CSV = 100;
+    private final Path csvResourcePath;
+
+    public CSVLoader(Path csvResourcePath) {
+
         if (csvResourcePath == null) {
             throw new IllegalArgumentException("Path is null");
         }
@@ -24,14 +21,23 @@ public class CSVLoader {
             throw new IllegalArgumentException("Provided resource path is not a CSV file: " + csvResourcePath);
         }
 
+        this.csvResourcePath = csvResourcePath;
+    }
+
+
+    public List<String> loadLinesFromCsvPath() throws IOException {
         List<String> csvLines = new ArrayList<>();
+
+        int lineCount = 0;
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(csvResourcePath.toString())) {
             if (input == null) {
                 throw new IOException("Resource not found: " + csvResourcePath);
             }
+
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
                 String header = reader.readLine();
+                lineCount++;
 
                 if (header.isBlank()) {
                     throw new IOException("File is missing header");
@@ -39,13 +45,18 @@ public class CSVLoader {
 
                 String line;
                 while ((line = reader.readLine()) != null) {
+                    if (lineCount > MAX_LINES_IN_CSV) {
+                        throw new IOException("Exceeded maximum line count of " + MAX_LINES_IN_CSV);
+                    }
                     csvLines.add(line);
+                    lineCount++;
                 }
             }
         }
 
         return csvLines;
     }
+
 
     private boolean isNotCSVPath(Path path) {
         return !path.toString().toLowerCase().endsWith(".csv");

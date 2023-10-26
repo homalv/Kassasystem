@@ -9,7 +9,7 @@ class CSVParserTest {
     private static final Path ASSORTMENT_RESOURCE_PATH = Path.of("test-assortment.csv");
 
     public List<String> getLoadedCSVLines(Path pathToCsv) throws IOException {
-        return new CSVLoader().load(pathToCsv);
+        return new CSVLoader(ASSORTMENT_RESOURCE_PATH).loadLinesFromCsvPath();
     }
 
     @Test

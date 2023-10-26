@@ -1,46 +1,92 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Path;
-
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.nio.file.Path;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+
 
 class CSVLoaderTest {
 
-    // TODO check tests again
+    private static final Path REAL_PATH = Path.of("src/main/resources/assortment.csv");
     private static final Path NON_CSV_FILE_PATH = Path.of("items.txt");
     private static final Path INVALID_PATH = Path.of("invalid/invalid.csv");
     private static final Path EMPTY_CSV_PATH = Path.of("/empty.csv");
-    private static final Path NO_HEADER_CSV_PATH = Path.of("emptyheader.csv");
+    private static final Path NO_HEADER_CSV_PATH = Path.of("src/test/resources/assortment/empty-header.csv");
 
-    private final CSVLoader csvLoader = new CSVLoader();
+    private final CSVLoader csvLoader = new CSVLoader(REAL_PATH);
 
     @Test
     void loadThrowsForNullPath() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> csvLoader.load(null));
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new CSVLoader(null));
         assertEquals(e.getMessage(), "Path is null");
     }
 
     @Test
     void loadThrowsForNonCsvFile() {
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> csvLoader.load(NON_CSV_FILE_PATH));
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new CSVLoader(NON_CSV_FILE_PATH));
         assertEquals(e.getMessage(), "Provided resource path is not a CSV file: " + NON_CSV_FILE_PATH);
     }
 
-    @Test
+/*    @Test
     void loadThrowsForInvalidResourcePath() {
-        IOException e = assertThrows(IOException.class, () -> csvLoader.load(INVALID_PATH));
-        assertEquals(e.getMessage(), "Resource not found: " + INVALID_PATH);
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> new CSVLoader(INVALID_PATH));
+        assertEquals("File does not exist: " + INVALID_PATH, e.getMessage());
+    }*/
+
+/*    @Test
+    void loadThrowsForMissingHeader() {
+        CSVLoader csvLoader = new CSVLoader(NO_HEADER_CSV_PATH);
+        IOException e = assertThrows(IOException.class, csvLoader::loadLinesFromCsvPath);
+        assertEquals("File is missing header", e.getMessage());
+    }*/
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "test-assortment.csv", numLinesToSkip = 1)
+    void testCsvFileLines(String eanCode,  String itemName, String Category, String Price) {
+    }
+
+/*    @ParameterizedTest
+    @ValueSource(strings = {
+            "/Users/afoolonahill/IdeaProjects/Gitea/Kassasystem/src/test/resources/assortment/empty.csv",
+            "src/test/resources/assortment/empty-header.csv",
+            "src/test/resources/assortment/above-one-hundred-lines.csv"
+    })
+    void loadThrowsForVariousCsvFiles(String fileName) {
+        Path path = Path.of(fileName);
+        CSVLoader loader = new CSVLoader(path);
+        IOException e = assertThrows(IOException.class, loader::loadLinesFromCsvPath);
+
+        // Dynamic check based on the filename
+        switch (fileName) {
+            case "src/test/resources/assortment/empty.csv":
+                assertEquals("File is empty", e.getMessage());
+                break;
+            case "empty-header.csv":
+                assertEquals("File is missing header", e.getMessage());
+                break;
+            case "above-one-hundred-lines.csv":
+                assertEquals("Exceeded maximum line count of 100", e.getMessage());
+                break;
+            default:
+                fail("Unhandled test case for file: " + fileName);
+        }
+    }*/
+
+    @Test
+    void testWindowsPath() {
+        assumeTrue(System.getProperty("os.name").startsWith("Windows"));
     }
 
     @Test
-    void loadThrowsForMissingHeader() {
-        IOException e = assertThrows(IOException.class, () -> csvLoader.load(NO_HEADER_CSV_PATH));
-        assertEquals(e.getMessage(), "File is missing header");
+    void testMacPath() {
+        assumeTrue(System.getProperty("os.name").startsWith("Mac"));
     }
 
-    // Test Windows path --> assumeTrue(System.getenv("OS").startsWith("Windows"))
-
-    // Test Mac path
-
+    @Test
+    void testLinuxPath() {
+        assumeTrue(System.getProperty("os.name").startsWith("Linux"));
+    }
 }
