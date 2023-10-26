@@ -3,6 +3,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -20,11 +22,17 @@ public class RegisterStateMachineTest {
     }
 
     private static Register registerInstanceSetup() throws IOException {
-        CSVLoader csvLoader = new CSVLoader();
+        Path csvResourcePath = Path.of("assortment.csv");
+
+        CSVLoader csvLoader = new CSVLoader(csvResourcePath);
         CSVParser csvParser = new CSVParser();
-        var items = csvLoader.load(Path.of("assortment.csv"));
-        Assortment assortment = new Assortment(csvParser.parse(items));
+
+        List<String> csvLines = csvLoader.loadLinesFromCsvPath();
+        Map<String, Item> items = csvParser.parse(csvLines);
+
+        Assortment assortment = new Assortment(items);
         ReceiptLedger receiptLedger = new ReceiptLedger();
+
         return new Register(assortment, receiptLedger);
     }
 
