@@ -71,5 +71,12 @@ class LineItemTest {
         assertEquals(sandwich, lineItem.getItem());
     }
 
+    @Test
+    void testGetVAT(){
+        Item sandwich = new Item("Sandwich", 11200, VALID_EAN, CATEGORY);
+        LineItem lineItem = new LineItem(sandwich, 4);
+        assertEquals(4800,lineItem.getVat());
+    }
+
 
 }
