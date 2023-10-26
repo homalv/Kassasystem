@@ -27,14 +27,20 @@ class LineItemTest {
     }
 
     @Test
-    void testDecreaseQuantityFromZeroThrows(){
+    void testConstrExceedsMaximumQuantityThrows(){
         Item mockedItem = mock(Item.class);
-        LineItem lineItem = new LineItem(mockedItem, 1);
-        lineItem.decreaseQuantityByOne();
         assertThrows(IllegalArgumentException.class,
-                () -> lineItem.decreaseQuantityByOne());
+                () -> new LineItem(mockedItem, 101));
     }
 
+
+    @Test
+    void testIncreaseQuantityByOne(){
+        Item mockedItem = mock(Item.class);
+        LineItem lineItem = new LineItem(mockedItem, 98);
+        lineItem.increaseQuantityByOne();
+        assertEquals(99, lineItem.getQuantity());
+    }
 
     @Test
     void testGetPriceReturnCorrect() {
@@ -43,10 +49,26 @@ class LineItemTest {
     }
 
     @Test
+    void testDecreaseQuantityFromZeroThrows(){
+        Item mockedItem = mock(Item.class);
+        LineItem lineItem = new LineItem(mockedItem, 1);
+        lineItem.decreaseQuantityByOne();
+        assertThrows(IllegalArgumentException.class,
+                () -> lineItem.decreaseQuantityByOne());
+    }
+
+    @Test
     void testIncreaseQuantityAboveOneHundredUnits(){
         LineItem lineItem = new LineItem(new Item("Book", 3000, VALID_EAN, CATEGORY), 100);
         assertThrows(IllegalArgumentException.class,
                 () -> lineItem.increaseQuantityByOne());
+    }
+
+    @Test
+    void testGetItem(){
+        Item sandwich = new Item("Sandwich", 6500, VALID_EAN, CATEGORY);
+        LineItem lineItem = new LineItem(sandwich, 1);
+        assertEquals(sandwich, lineItem.getItem());
     }
 
 
