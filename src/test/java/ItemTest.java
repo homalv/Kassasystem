@@ -17,6 +17,7 @@ class ItemTest {
     private static final String TOO_LONG_EAN = "111111111111111";
     private static final String TOO_SHORT_EAN = "11111111111";
     private static final String EAN_WITH_NON_DIGITS = "1111ea@";
+    private static final String EAN_WITH_NON_DIGITS_AND_CORRECT_LENGTH = "12345678a0000";
     private static final String VALID_EAN = "1234567890000";
     private static final String VALID_SECOND_EAN = "1234567890102";
 
@@ -155,6 +156,12 @@ class ItemTest {
         long testItemVat = testItem.getVAT();
         assertEquals(25, testItemVat);
         
+    }
+
+    @Test
+    void testEANWithNonDigitsAndCorrectLength() { // countryDigits05
+        assertThrows(IllegalArgumentException.class,
+                () -> new Item(ITEM_NAME, PRICE, EAN_WITH_NON_DIGITS_AND_CORRECT_LENGTH, CATEGORY));
     }
 
 }
