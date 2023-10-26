@@ -1,29 +1,27 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Receipt {
     private int serialNumberCounter = 0;
-    private int serialNumber;
-    private String serialNumberString;
-    private LocalDate receiptDay;
+    private final String serialNumberString;
+    private final LocalDate receiptDay;
     private final LocalTime receiptTime;
-    private List<LineItem> lineItems;
+    private final List<LineItem> lineItems;
 
     /*kvittot har ett serienummer som baseras på dagens datum + fem siffror till.
     Om det är en ny dag så nollställs de sista fem. Exempel 23100500001 */
     public Receipt(List<LineItem> listOfItems){
         updateReceiptDayAndCounter();
         serialNumberCounter ++;
-        this.serialNumber = serialNumberCounter;
+        int serialNumber = serialNumberCounter;
         this.receiptDay = LocalDate.now();
         this.receiptTime = LocalTime.now();
         lineItems = listOfItems;
 
         String datePrefix = receiptDay.format(DateTimeFormatter.ofPattern("yyMMdd"));
-        serialNumberString = datePrefix + String.format("%05d",serialNumber);
+        serialNumberString = datePrefix + String.format("%05d", serialNumber);
 
     }
 

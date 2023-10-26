@@ -16,7 +16,6 @@ public class ReceiptTest {
     private ArrayList<LineItem> lineOfItems;
 
 
-
     @Test
     void checkValidSerialNumber(){
         Receipt receipt = new Receipt(lineOfItems);
@@ -70,8 +69,4 @@ public class ReceiptTest {
         Receipt receipt = new Receipt(lineItems);
         assertEquals(lineItems, receipt.getLineItems());
     }
-
-
-
-
 }
