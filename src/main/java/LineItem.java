@@ -45,9 +45,10 @@ public class LineItem {
     public long getPrice() {
         return item.getPrice() * quantity;
     }
-//    public long getVat() {
-//        return item.getVAT() * quantity;
-//    }
+
+    public long getVat() {
+        return item.getVAT() * quantity;
+    }
 
     public Item getItem() {
         return item;
