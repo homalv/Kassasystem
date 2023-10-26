@@ -6,11 +6,11 @@ import java.util.Map;
 public class AssortmentFactory {
 
     public static Assortment createAssortment(Path csvResourcePath) {
-        CSVLoader loader = new CSVLoader();
+        CSVLoader loader = new CSVLoader(csvResourcePath);
         List<String> csvLines;
 
         try {
-            csvLines = loader.load(csvResourcePath);
+            csvLines = loader.loadLinesFromCsvPath();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
