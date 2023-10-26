@@ -14,13 +14,13 @@ public class ReceiptLedgerTest {
     private static final String PINEAPPLE_EAN = "1234567890017";
     private Register registerWithInitPurchase;
     @Mock
-    private ReceiptLedger receiptLedger;
+    private ReceiptRepository receiptRepository;
     private Receipt receipt;
 
     @BeforeEach
     void setUp() {
         Assortment assortment = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
-        registerWithInitPurchase = new Register(assortment, receiptLedger);
+        registerWithInitPurchase = new Register(assortment, (ReceiptLedger) receiptRepository);
         MockitoAnnotations.initMocks(this);
         registerWithInitPurchase.initializePurchase();
         receipt = getReceiptWithOneItem();
@@ -34,15 +34,15 @@ public class ReceiptLedgerTest {
 
     @Test
     void testAddReceipt() {
-        when(receiptLedger.add(any(Receipt.class))).thenReturn(true);
-        boolean result = receiptLedger.add(receipt);
+        when(receiptRepository.add(any(Receipt.class))).thenReturn(true);
+        boolean result = receiptRepository.add(receipt);
         assertTrue(result);
     }
 
     @Test
     void testAddDuplicateReceipt() {
-        when(receiptLedger.add(any(Receipt.class))).thenReturn(false);
-        boolean result = receiptLedger.add(receipt);
+        when(receiptRepository.add(any(Receipt.class))).thenReturn(false);
+        boolean result = receiptRepository.add(receipt);
         assertFalse(result);
     }
 
