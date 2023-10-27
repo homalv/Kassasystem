@@ -4,12 +4,14 @@ public class Register {
     private final Assortment assortment;
     private final ReceiptLedger ledger;
     private ShoppingCart cart;
+    private final Scanner scanner;
 
     private boolean scanningCompleted;
 
-    public Register(Assortment assortment, ReceiptLedger ledger) {
+    public Register(Assortment assortment, ReceiptLedger ledger, Scanner scanner) {
         this.assortment = assortment;
         this.ledger = ledger;
+        this.scanner = scanner;
     }
 
     public ShoppingCart getCart() {
@@ -78,6 +80,8 @@ public class Register {
     public Receipt createReceipt() {
         return new Receipt(cart.getLineItemsForPaidPurchase());
     }
+
+    // TODO print receipt
 
     // log receipt
     public boolean logReceipt(Receipt receipt) {
