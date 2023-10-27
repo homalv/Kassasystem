@@ -1,60 +1,62 @@
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.*;
+/**
+ * Generated using ChatGPT 4.
+ * Prompt used:
+ * CSVParser class and previous CSVParserTest class
+ * "Write tests for 100% statement coverage"
+ * ************************************************
+ * Result:
+ * 100% statement coverage is achieved
+ * */
 class CSVParserTest {
 
-    private static final Path ASSORTMENT_RESOURCE_PATH = Path.of("test-assortment.csv");
+    @Test
+    void testParseWithValidCSVLines() {
+        // Arrange
+        CSVParser csvParser = new CSVParser();
+        List<String> validCSVLines = List.of(
+                "1234567890010,Sandwich,Food,8000",
+                "9876543210010,Drink,Food,500"
+        );
 
-    public List<String> getLoadedCSVLines(Path pathToCsv) throws IOException {
-        return new CSVLoader(ASSORTMENT_RESOURCE_PATH).loadLinesFromCsvPath();
+        // Act
+        Map<String, Item> itemsMap = csvParser.parse(validCSVLines);
+
+        // Assert
+        assertEquals(2, itemsMap.size());
+        assertTrue(itemsMap.containsKey("1234567890010"));
+        assertTrue(itemsMap.containsKey("9876543210010"));
     }
 
     @Test
-    void testParsesWithoutErrors() {
+    void testParseWithInvalidCSVLineFormat() {
+        // Arrange
+        CSVParser csvParser = new CSVParser();
+        List<String> invalidCSVLines = List.of(
+                "1234567890010,Sandwich,Food,8000",
+                "9876543210010,Drink,Beverage", // Missing Price
+                "1234" // Incomplete line
+        );
 
-    }
-
-
-/*    @Test
-    void ctrThrowsForNonNumericalString() {
-        assertThrows(NumberFormatException.class, () -> new Assortment(NON_NUMERICAL_STRING_IN_CSV_PATH));
+        // Act and Assert
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> csvParser.parse(invalidCSVLines));
     }
 
     @Test
-    void ctrThrowsForInvalidCSVFormat() {
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> new Assortment(OUT_OF_BOUNDS_CSV_PATH));
-    }*/
+    void testParseWithInvalidPriceFormat() {
+        // Arrange
+        CSVParser csvParser = new CSVParser();
+        List<String> invalidPriceCSVLines = List.of(
+                "1234567890010,Sandwich,Food,8000",
+                "9876543210010,Drink,Beverage,InvalidPrice"
+        );
 
-    /*
-     * EAN Code,Item Name,Category,Price
-     * 1234567890010,Sandwich,Food,8000
-     * */
-
-    /*
-     * production-assortment == test-assortment
-     * */
-
-    // Test with empty file
-    // items.txt
-
-    // Test with wrong file type
-
-    // Test each col?
-
-    // Test col in line in CSV is out of bounds
-    // oob.csv
-
-    // Test price string is non-numerical
-    // non-numerical-item-string.csv
-
-    // Exception e = assertThrows()
-    // + Check message
-
-    // String s = assertTimeout()
-    // + additional checks on s
-
-
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> csvParser.parse(invalidPriceCSVLines));
+    }
 }
