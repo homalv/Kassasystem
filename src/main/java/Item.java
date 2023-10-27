@@ -61,16 +61,13 @@ public class Item {
     }
 
     private Category setCategory(String category) {
-        switch (category) {
-            case "Food":
-                return Category.FOOD;
-            case "Literature":
-                return Category.LITERATURE;
-            case "Office Supplies":
-                return Category.OFFICE_SUPPLIES;
-            default:
-            throw new IllegalArgumentException("Category got to be either Food, Literature or Office Supplies.");
-        }
+        return switch (category) {
+            case "Food" -> Category.FOOD;
+            case "Literature" -> Category.LITERATURE;
+            case "Office Supplies" -> Category.OFFICE_SUPPLIES;
+            default ->
+                    throw new IllegalArgumentException("Category got to be either Food, Literature or Office Supplies.");
+        };
 
     }
 
@@ -94,16 +91,11 @@ public class Item {
     }
 
     public long getVAT() {
-        switch (category) {
-            case FOOD:
-                return VAT.REDUCED.getVAT(price);
-            case LITERATURE:
-                return VAT.LOW.getVAT(price);
-            case OFFICE_SUPPLIES:
-                return VAT.STANDARD.getVAT(price);
-            default:
-                throw new IllegalArgumentException("There exists no VAT for this category");
-        }
+        return switch (category) {
+            case FOOD -> VAT.REDUCED.getVAT(price);
+            case LITERATURE -> VAT.LOW.getVAT(price);
+            case OFFICE_SUPPLIES -> VAT.STANDARD.getVAT(price);
+            };
     }
 
     public String getName() {

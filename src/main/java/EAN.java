@@ -14,8 +14,8 @@ public class EAN {
     }
 
     public EAN(String productDigitsOrCompleteEANNumber) {
-        if (productDigitsOrCompleteEANNumber.equals(null)) {
-            throw new NullPointerException();
+        if(productDigitsOrCompleteEANNumber == null){
+            throw new NullPointerException("EAN cannot be null");
         }
         for (char c : productDigitsOrCompleteEANNumber.toCharArray()) {
             if (!Character.isDigit(c)) {
@@ -76,12 +76,13 @@ public class EAN {
     }
 
     private String countryPrefixValidator(String countryPrefix) {
+        if (countryPrefix == null) {
+            throw new NullPointerException("Country prefix can't be null");
+        }
         if (countryPrefix.length() != 3) {
             throw new IllegalArgumentException("Country prefix needs to be 3 digits");
         }
-        if (countryPrefix.equals(null)) {
-            throw new NullPointerException("Country prefix can't be null");
-        }
+
         for (char c : countryPrefix.toCharArray()) {
             if (!Character.isDigit(c)) {
                 throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
@@ -92,12 +93,12 @@ public class EAN {
     }
 
     private String manufacturerDigitsValidator(String manufacturerDigits) {
-        if (manufacturerDigits.length() != 5) {
+        if (manufacturerDigits == null) {
+            throw new NullPointerException("Manufacturer digits can't be null");
+        } if (manufacturerDigits.length() != 5) {
             throw new IllegalArgumentException("Manufacturer digits needs to be 5 digits");
         }
-        if (manufacturerDigits.equals(null)) {
-            throw new NullPointerException("Manufacturer digits can't be null");
-        }
+
         for (char c : manufacturerDigits.toCharArray()) {
             if (!Character.isDigit(c)) {
                 throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);
@@ -107,12 +108,13 @@ public class EAN {
     }
 
     private String productDigitsValidator(String productDigits) {
+        if (productDigits == null) {
+            throw new NullPointerException("Manufacturer digits can't be null");
+        }
         if (productDigits.length() != 4) {
             throw new IllegalArgumentException("Manufacturer digits needs to be 4 digits");
         }
-        if (productDigits.equals(null)) {
-            throw new NullPointerException("Manufacturer digits can't be null");
-        }
+
         for (char c : productDigits.toCharArray()) {
             if (!Character.isDigit(c)) {
                 throw new IllegalArgumentException(ERROR_MESSAGE_INVALID_CHAR);

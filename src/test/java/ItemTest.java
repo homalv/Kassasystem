@@ -163,5 +163,9 @@ class ItemTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new Item(ITEM_NAME, PRICE, EAN_WITH_NON_DIGITS_AND_CORRECT_LENGTH, CATEGORY));
     }
+    @Test
+    void testSetCategoryWithWrongCategory() {
+        assertThrows(IllegalArgumentException.class, () -> new Item(ITEM_NAME, PRICE, VALID_EAN, "Meat"));
+    }
 
 }
