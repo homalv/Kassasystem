@@ -15,11 +15,13 @@ public class ReceiptLedgerTest {
     @Mock
     private ReceiptRepository receiptRepository;
     private Receipt receipt;
+    private Scanner scanner;
 
     @BeforeEach
     void setUp() {
         Assortment assortment = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
-        registerWithInitPurchase = new Register(assortment, (ReceiptLedger) receiptRepository);
+        scanner = mock(Scanner.class);
+        registerWithInitPurchase = new Register(assortment, (ReceiptLedger) receiptRepository, scanner);
         MockitoAnnotations.initMocks(this);
         registerWithInitPurchase.initializePurchase();
         receipt = getReceiptWithOneItem();

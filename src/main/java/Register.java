@@ -4,12 +4,14 @@ public class Register {
     private final Assortment assortment;
     private final ReceiptLedger ledger;
     private ShoppingCart cart;
+    private final Scanner scanner;
 
     private boolean scanningCompleted;
 
-    public Register(Assortment assortment, ReceiptLedger ledger) {
+    public Register(Assortment assortment, ReceiptLedger ledger, Scanner scanner) {
         this.assortment = assortment;
         this.ledger = ledger;
+        this.scanner = scanner;
     }
 
     public ShoppingCart getCart() {
@@ -18,27 +20,30 @@ public class Register {
 
     public void initializePurchase() {
         cart = new ShoppingCart();
+        scanner.initialize();
     }
 
     public boolean addToCart(String ean) {
         canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
 
-        if (itemOptional.isEmpty()) {
-            return false;
-        }
+        return itemOptional.filter(item -> cart.addItem(item)).isPresent();
 
-        return cart.addItem(itemOptional.get());
+    }
+
+    public boolean scanToAdd() {
+        if (scanner.isConnected()) {
+            String ean = scanner.getEAN();
+            return addToCart(ean);
+        }
+        return false;
     }
 
     public boolean removeFromCart(String ean) {
         canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
-        if (itemOptional.isEmpty()) {
-            return false;
-        }
+        return itemOptional.filter(item -> cart.removeItem(item)).isPresent();
 
-        return cart.removeItem(itemOptional.get());
     }
 
     private void canModifyCart() {
@@ -54,6 +59,7 @@ public class Register {
     public void cancelPurchase() {
         cart = null;
     }
+
 
     public boolean getScanningCompleted() {
         return scanningCompleted;
@@ -78,6 +84,8 @@ public class Register {
     public Receipt createReceipt() {
         return new Receipt(cart.getLineItemsForPaidPurchase());
     }
+
+    // TODO print receipt
 
     // log receipt
     public boolean logReceipt(Receipt receipt) {

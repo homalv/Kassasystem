@@ -39,6 +39,10 @@ public class CSVLoader {
                 String header = reader.readLine();
                 lineCount++;
 
+                if (header == null) {
+                    throw new NullPointerException("Header is empty");
+                }
+
                 if (header.isBlank()) {
                     throw new IOException("File is missing header");
                 }

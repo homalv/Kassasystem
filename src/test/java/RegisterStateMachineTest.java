@@ -21,7 +21,7 @@ public class RegisterStateMachineTest {
         scanner = mock(Scanner.class);
     }
 
-    private static Register registerInstanceSetup() throws IOException {
+    private Register registerInstanceSetup() throws IOException {
         Path csvResourcePath = Path.of("assortment.csv");
 
         CSVLoader csvLoader = new CSVLoader(csvResourcePath);
@@ -33,7 +33,9 @@ public class RegisterStateMachineTest {
         Assortment assortment = new Assortment(items);
         ReceiptLedger receiptLedger = new ReceiptLedger();
 
-        return new Register(assortment, receiptLedger);
+        scanner = mock(Scanner.class);
+
+        return new Register(assortment, receiptLedger, scanner);
     }
 
     @Test
