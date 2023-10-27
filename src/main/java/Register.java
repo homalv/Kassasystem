@@ -33,6 +33,11 @@ public class Register {
         return cart.addItem(itemOptional.get());
     }
 
+    public boolean scanToAdd() {
+        String ean = scanner.getEAN();
+        return addToCart(ean);
+    }
+
     public boolean removeFromCart(String ean) {
         canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
@@ -41,6 +46,11 @@ public class Register {
         }
 
         return cart.removeItem(itemOptional.get());
+    }
+
+    public boolean scanToRemove() {
+        String ean = scanner.getEAN();
+        return removeFromCart(ean);
     }
 
     private void canModifyCart() {
@@ -56,6 +66,7 @@ public class Register {
     public void cancelPurchase() {
         cart = null;
     }
+
 
     public boolean getScanningCompleted() {
         return scanningCompleted;
