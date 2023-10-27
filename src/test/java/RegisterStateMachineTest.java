@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -7,12 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class RegisterStateMachineTest {
 
-    private static final String PINEAPPLE_EAN = "1234567890017";
+    private static final String AN_ITEM_EAN = "1234567890017";
 
     private Scanner scanner;
 
@@ -49,7 +49,8 @@ public class RegisterStateMachineTest {
     @Test
     void testPurchaseStatesOfStateMachineForRegister() throws IOException {
         Register register = registerInstanceSetup();
-        when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
+        when(scanner.getEAN()).thenReturn(AN_ITEM_EAN);
+        scanner.initialize();
 
         // CI
         register.initializePurchase();
@@ -83,4 +84,56 @@ public class RegisterStateMachineTest {
         register.cancelPurchase();
         assertNull(register.getCart());
     }
+
+    @Test
+    void testPurchaseStatesOfStateMachineForRegisterWithSpy() throws IOException {
+        when(scanner.getEAN()).thenReturn(AN_ITEM_EAN);
+
+        Scanner scannerSpy = spy(scanner);
+        when(scannerSpy.getEAN()).thenReturn(AN_ITEM_EAN);
+
+        // Stub the initialize method to call the real method on the original scanner
+        doCallRealMethod().when(scannerSpy).initialize();
+
+        Register register = registerInstanceSetup();
+
+        // CI
+        register.initializePurchase();
+        assertNotNull(register.getCart());
+
+        // IS, IA
+        assertTrue(register.scanToAdd());
+
+        // IS, IR
+        assertTrue(register.removeFromCart(scanner.getEAN()));
+
+        // IS, IA
+        assertTrue(register.scanToAdd());
+
+        // SC
+        register.setScanningCompleted(true);
+        assertTrue(register.getScanningCompleted());
+
+        // PA
+        register.pay();
+        assertTrue(register.getCart().isPaid());
+
+        // RC --> TODO weak test?
+        Receipt receiptToLog = register.createReceipt();
+        assertNotNull(receiptToLog);
+
+        // RL
+        assertTrue(register.logReceipt(receiptToLog));
+
+        // ID
+        register.cancelPurchase();
+        assertNull(register.getCart());
+
+        // Verify that all expected method invocations on the spy occurred
+        verify(scannerSpy).initialize();
+        verify(scannerSpy, Mockito.atLeastOnce()).getEAN();
+        verify(scannerSpy, Mockito.atLeastOnce()).isConnected();
+    }
+
+
 }
