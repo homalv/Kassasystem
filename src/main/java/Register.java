@@ -20,22 +20,23 @@ public class Register {
 
     public void initializePurchase() {
         cart = new ShoppingCart();
+        scanner.initialize();
     }
 
     public boolean addToCart(String ean) {
         canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
 
-        if (itemOptional.isEmpty()) {
-            return false;
-        }
+        return itemOptional.filter(item -> cart.addItem(item)).isPresent();
 
-        return cart.addItem(itemOptional.get());
     }
 
     public boolean scanToAdd() {
-        String ean = scanner.getEAN();
-        return addToCart(ean);
+        if (scanner.isConnected()) {
+            String ean = scanner.getEAN();
+            return addToCart(ean);
+        }
+        return false;
     }
 
     public boolean removeFromCart(String ean) {
@@ -43,11 +44,6 @@ public class Register {
         Optional<Item> itemOptional = assortment.getItem(ean);
         return itemOptional.filter(item -> cart.removeItem(item)).isPresent();
 
-    }
-
-    public boolean scanToRemove() {
-        String ean = scanner.getEAN();
-        return removeFromCart(ean);
     }
 
     private void canModifyCart() {

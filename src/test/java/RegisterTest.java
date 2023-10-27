@@ -20,20 +20,22 @@ class RegisterTest {
     @BeforeEach
     void setUp() {
         scanner = mock(Scanner.class);
+        when(scanner.initialize()).thenReturn(true);
+
         ledger = new ReceiptLedger();
 
         Assortment assortment = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
-        register = new Register(assortment, ledger);
+        register = new Register(assortment, ledger, scanner);
 
         Assortment assortment2 = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
-        registerWithInitPurchase = new Register(assortment2, ledger);
+        registerWithInitPurchase = new Register(assortment2, ledger, scanner);
         registerWithInitPurchase.initializePurchase();
     }
 
     // SETUP METHOD
     public Register getRegisterWithCartWithOneAddedItem() {
         Assortment assortment2 = AssortmentFactory.createAssortment(ASSORTMENT_RESOURCE_PATH);
-        Register registerWithInitPurchase = new Register(assortment2, ledger);
+        Register registerWithInitPurchase = new Register(assortment2, ledger, scanner);
         registerWithInitPurchase.initializePurchase();
         registerWithInitPurchase.addToCart(PINEAPPLE_EAN);
         return registerWithInitPurchase;
@@ -164,6 +166,21 @@ class RegisterTest {
         assertTrue(register.logReceipt(register.createReceipt()));
     }
 
+    // ScanToAdd
+    @Test
+    void testCannotScanToAddIfScannerNotConnected() {
+        when(scanner.isConnected()).thenReturn(false);
+        assertFalse(register.scanToAdd());
+    }
+
+    @Test
+    void testCanAddToCartWhenScannerIsConnectedAndReturnEAN() {
+        when(scanner.isConnected()).thenReturn(true);
+        when(scanner.getEAN()).thenReturn(PINEAPPLE_EAN);
+        register.initializePurchase();
+        assertTrue(register.scanToAdd());
+    }
+
 
     // Refund
 
@@ -178,6 +195,5 @@ class RegisterTest {
     // IF PAYED THEN printReceipt()
 
     // IF PAYED THEN logg(completedPurchase)
-
 
 }
