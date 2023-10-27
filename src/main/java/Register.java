@@ -41,11 +41,8 @@ public class Register {
     public boolean removeFromCart(String ean) {
         canModifyCart();
         Optional<Item> itemOptional = assortment.getItem(ean);
-        if (itemOptional.isEmpty()) {
-            return false;
-        }
+        return itemOptional.filter(item -> cart.removeItem(item)).isPresent();
 
-        return cart.removeItem(itemOptional.get());
     }
 
     public boolean scanToRemove() {
