@@ -1,4 +1,3 @@
-/*
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.SuiteDisplayName;
@@ -9,4 +8,3 @@ import org.junit.runner.RunWith;
 @SelectClasses({RegisterTest.class, RegisterStateMachineTest.class, ShoppingCartTest.class, AssortmentTest.class})
 public class IntegrationSuiteTests {
 }
-*/

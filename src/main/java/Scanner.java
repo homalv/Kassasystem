@@ -4,4 +4,6 @@ public interface Scanner {
     boolean initialize();
 
     boolean isConnected();
+
+    //
 }

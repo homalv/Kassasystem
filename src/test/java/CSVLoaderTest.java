@@ -112,7 +112,7 @@ class CSVLoaderTest {
         IOException e = assertThrows(IOException.class, loader::loadLinesFromCsvPath);
 
         // Adjust the checks for specific exception messages
-        if (fileName.equals("src/test/resources/empty.csv")) {
+        if (fileName.equals("empty.csv")) {
             assertEquals("File is empty", e.getMessage());
         } else if (fileName.equals("empty-header.csv")) {
             assertEquals("File is missing header", e.getMessage());

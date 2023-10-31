@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Item</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: Item (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Item</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (47/47)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Item$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (48/48)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;public class Item {
+&nbsp;
+&nbsp;    private static final int HIGHEST_ISO88591_CHAR_VALUE = 255;
+&nbsp;    private static final int NAME_MAX_LENGTH = 30;
+&nbsp;    private static final int THIRTEEN = 13;
+&nbsp;    private static final String REGEX = &quot;\\s{2,}&quot;;
+&nbsp;    private final long price;
+&nbsp;    private final Category category;
+&nbsp;    private final String name;
+&nbsp;    private final EAN EANNumber;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public Item(String name, long price, String EANNumber, String category) {</b>
+<b class="fc">&nbsp;        if (name == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Name cannot be null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (EANNumber == null){</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;The EAN number cannot be null&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (name.isBlank()) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Name cannot be empty or blank&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (containsNonISO88591(name)) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Contains non-ISO-8859-1&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String trimmedName = trim(name);</b>
+<b class="fc">&nbsp;        if (trimmedName.length() &gt; NAME_MAX_LENGTH) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Trimmed string too long&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (price &lt; 0) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Price must not be negative or above Long.MAX_VALUE&quot;);</b>
+&nbsp;
+&nbsp;        }
+<b class="fc">&nbsp;        if (EANNumber.length() != THIRTEEN) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;EAN needs to be 13 digits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (char c : EANNumber.toCharArray()) {</b>
+<b class="fc">&nbsp;            if (!Character.isDigit(c)) {</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(&quot;Only digits are accepted in EAN, 0-9&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        this.name = trimmedName;</b>
+<b class="fc">&nbsp;        this.price = price;</b>
+<b class="fc">&nbsp;        this.EANNumber = new EAN(EANNumber);</b>
+<b class="fc">&nbsp;        this.category = setCategory(category);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEAN() {
+<b class="fc">&nbsp;        return EANNumber.getEANNumber();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCategory() {
+<b class="fc">&nbsp;        return category.getCategory();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Category setCategory(String category) {
+<b class="fc">&nbsp;        return switch (category) {</b>
+<b class="fc">&nbsp;            case &quot;Food&quot; -&gt; Category.FOOD;</b>
+<b class="fc">&nbsp;            case &quot;Literature&quot; -&gt; Category.LITERATURE;</b>
+<b class="fc">&nbsp;            case &quot;Office Supplies&quot; -&gt; Category.OFFICE_SUPPLIES;</b>
+&nbsp;            default -&gt;
+<b class="fc">&nbsp;                    throw new IllegalArgumentException(&quot;Category got to be either Food, Literature or Office Supplies.&quot;);</b>
+&nbsp;        };
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    // Test through CTR
+&nbsp;    private boolean containsNonISO88591(String name) {
+<b class="fc">&nbsp;        return name.chars().anyMatch(c -&gt; c &gt; HIGHEST_ISO88591_CHAR_VALUE);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Test through CTR
+&nbsp;    private String trim(String name) {
+<b class="fc">&nbsp;        String trimmedName = name.trim();</b>
+&nbsp;
+&nbsp;        // Regex: Delete all whitespaces between words when there are more than one
+<b class="fc">&nbsp;        trimmedName = trimmedName.replaceAll(REGEX, &quot; &quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        return trimmedName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public long getPrice() {
+<b class="fc">&nbsp;        return price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public long getVAT() {
+<b class="fc">&nbsp;        return switch (category) {</b>
+<b class="fc">&nbsp;            case FOOD -&gt; VAT.REDUCED.getVAT(price);</b>
+<b class="fc">&nbsp;            case LITERATURE -&gt; VAT.LOW.getVAT(price);</b>
+<b class="fc">&nbsp;            case OFFICE_SUPPLIES -&gt; VAT.STANDARD.getVAT(price);</b>
+&nbsp;            };
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName() {
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="fc">&nbsp;        if (this == o) {</b>
+<b class="fc">&nbsp;            return true;}</b>
+<b class="fc">&nbsp;        if (o == null || getClass() != o.getClass()) {</b>
+<b class="fc">&nbsp;            return false;}</b>
+<b class="fc">&nbsp;        Item item = (Item) o;</b>
+<b class="fc">&nbsp;        return Objects.equals(EANNumber.getEANNumber(), item.EANNumber.getEANNumber());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;        return Objects.hash(EANNumber.getEANNumber());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-27 14:01</div>
+</div>
+</body>
+</html>
